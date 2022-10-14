@@ -1,0 +1,9 @@
+0000000X|When is assignment 1 due?|James Cameron|Assignment 1|It is due Friday 2nd Sep|Josh Spin|Tomorrow (2/9)!!|Kyle Pop|2/9 11:59 pm|Chloe Con
+00000031|For group projects, do the group members have to be in the same stream as each other?|Ronald Johnson|General|Nope. You can team up with the students from other streams.|Weihua Li
+000000052|the online lab seems not working, anyone with the same issue?|Cho Li|General|The online link was fixed already|Weihua Li
+00198420984|Do we have to include headers in the code we submit for the weekly tutorials like we did in Programming 2? (With the name, student id, assessment type...)|Josh Spin|General|Hi Josh, the headers are not required for tutorial submissions. Thanks, Jingli.|Jingli Shi
+c68ce9d4-ebfd-4fa4-958c-a874e401eb0c|How many classes do we need for assignment 1?|Max|Assignment 1|I think 10+ is a minimum requirement if you want full marks|Leo Jia
+f29cfb58-4623-440a-aaeb-263209334755|Does anyone know Weihua's email?|Lily|General|His email address is: weihua.li@aut.nz|Admin
+baaa5981-ebda-4eee-ab4f-1540ac1eaf83|For Task 2.3 did anyone use other type of Java collection? I know the example given is using HashMap but I'm curious if it can be achieved with other collections as well? Cheers|Daniel Dip|Lab 2
+3a947235-bbdd-4e86-a42e-c5deffb78753|Greetings everyone, what should the folder name of the lab submission be?|Kristeen Cha|General|Hi Kristeen, you can just submit your submission like "name_studentID_labnumber"|Jingli Shi
+3c18f06d-638b-41be-90c6-6811c567dbc9|Hey I'm looking for a group member, please email me if you need one too - gja1622@autuni.ac.nz|Dion Herm|Team Up
