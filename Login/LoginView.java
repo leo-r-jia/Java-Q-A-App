@@ -5,6 +5,8 @@
 package Login;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
@@ -20,12 +22,14 @@ import javax.swing.JTextField;
  */
 public class LoginView extends JFrame implements Observer  {
     
-    private JPanel userPanel = new JPanel();
+    private JPanel userPanel1 = new JPanel();
+    private JPanel userPanel2 = new JPanel();
+    
     private JPanel loginPanel = new JPanel();
     private JPanel createAccPanel = new JPanel();
     
-    public JLabel welcomeMessage = new JLabel ("-------------Welcome to ENSE600/COMP603 Q & A App-------------", JLabel.CENTER);
-    public JLabel queryMessage = new JLabel("-------------Have you already got an account?-------------",JLabel.CENTER);
+    
+    public JLabel queryMessage = new JLabel("Have you already got an account?",JLabel.CENTER);
     private JLabel yes = new JLabel("Yes, I want to log in with my account.");
     private JButton yesButton = new JButton("Log in Now");
     private JLabel no = new JLabel("No, I want to create a new account.");
@@ -36,7 +40,7 @@ public class LoginView extends JFrame implements Observer  {
     private JLabel pWord = new JLabel("Password: ");
     public JTextField uidInput = new JTextField(10);
     public JTextField pwInput = new JTextField(10);
-    //private JLabel wrongName = new JLabel("Wrong username or passwork!");
+    private JLabel wrongName = new JLabel();
     private JButton loginButton = new JButton("Log in");
     
     private JLabel inputId = new JLabel("Please input a user ID: ");
@@ -49,20 +53,23 @@ public class LoginView extends JFrame implements Observer  {
     
    
     public LoginView(){
+        super("-------------Welcome to ENSE600/COMP603 Q & A App-------------");
         
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(800,200);
         
-        this.add(this.welcomeMessage,BorderLayout.SOUTH);
         this.add(this.queryMessage,BorderLayout.NORTH);
+        this.queryMessage.setFont(new Font("Serif",Font.ITALIC,15));
         
-        this.userPanel.add(yes);
-        this.userPanel.add(yesButton);
-        this.userPanel.add(no);
-        this.userPanel.add(noButton);
-        this.userPanel.add(quitButton);
+        this.userPanel1.add(yes);
+        this.userPanel1.add(yesButton);
+        this.userPanel2.add(no);
+        this.userPanel2.add(noButton);
+        this.userPanel2.add(quitButton);
+        this.quitButton.setForeground(Color.red);
         
-        this.add(userPanel);
+        this.add(userPanel1,BorderLayout.CENTER);
+        this.add(userPanel2,BorderLayout.SOUTH);
         this.setVisible(true);
     
     }
@@ -74,13 +81,12 @@ public class LoginView extends JFrame implements Observer  {
         loginPanel.add(pwInput);
         loginPanel.add(loginButton);
         loginPanel.add(quitButton);
-        
+        this.quitButton.setForeground(Color.red);
         
         this.getContentPane().removeAll();
         loginPanel.setVisible(true);
         
         this.add(loginPanel);
-        this.add(this.welcomeMessage,BorderLayout.PAGE_START);
         this.revalidate();
         this.repaint();
         
@@ -94,11 +100,11 @@ public class LoginView extends JFrame implements Observer  {
         createAccPanel.add(newUserPassword);
         createAccPanel.add(createNewAcc);
         createAccPanel.add(quitButton);
+        this.quitButton.setForeground(Color.red);
         
         this.getContentPane().removeAll();
         createAccPanel.setVisible(true);
         this.add(createAccPanel);
-        this.add(this.welcomeMessage,BorderLayout.PAGE_START);
         this.revalidate();
         this.repaint();
         
@@ -112,24 +118,35 @@ public class LoginView extends JFrame implements Observer  {
         
     }
     
+    public void quitSystem(){
+        JPanel quitPanel = new JPanel();
+        JLabel goodbye = new JLabel("Goodbye! See you next time!");
+        quitPanel.add(goodbye,BorderLayout.CENTER);
+        this.getContentPane().removeAll();
+        
+        this.add(quitPanel);
+        this.revalidate();
+        this.repaint(); 
+    }
+    
     @Override
     public void update(Observable o, Object arg) {
         Data data = (Data) arg;
         if(!data.hasAnAccount){
             this.loginAccount();
+            data.loginFlag = true;
+            
+ 
             
         }else if(data.hasAnAccount){
             this.createAnAccount();
             
-        }else if(!data.loginFlag){
+        }else if(data.loginFlag){
             this.uidInput.setText("");
             this.pwInput.setText("");
-            this.welcomeMessage.setText("Invalid username or password.");
+            this.wrongName.setText("Invalid username or password.");
+        }else if(!data.quitFlag){
+            this.quitSystem();
         }
-    }
-
-    
-
-    
-     
+    }    
 }

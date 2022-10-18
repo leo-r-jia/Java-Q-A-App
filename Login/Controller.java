@@ -40,7 +40,7 @@ public class Controller implements ActionListener {
                 break;
                 
             case "Quit":
-                this.model.quitSystem();
+                this.view.quitSystem();
                 break;
                 
         }

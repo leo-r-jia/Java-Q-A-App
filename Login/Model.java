@@ -13,7 +13,7 @@ import java.util.Observable;
 public class Model extends Observable{
     
     public LoginDatabase db;
-    public Data data;
+    public Data data = new Data();
     public String userID;
     
     public Model(){
@@ -33,11 +33,10 @@ public class Model extends Observable{
     }
 
     public void quitSystem() {
+        this.db.quitSystem();
         this.data.quitFlag = true;
         this.setChanged();
         this.notifyObservers(this.data);  
     }
-    
-    
-    
+      
 }
