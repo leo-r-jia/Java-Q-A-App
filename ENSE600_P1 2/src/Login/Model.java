@@ -26,10 +26,16 @@ public class Model extends Observable{
         this.userID = userID;
         this.data = this.db.checkName(userID, password);
         
-        //need to figure out the function of this step
         this.setChanged();
         this.notifyObservers(this.data);
       
+    }
+    
+    public void createNewAcc(String userID, String userName, String password){
+        this.userID = userID;
+        this.db.createNewAccount(userID, password, userName);
+        this.setChanged();
+        this.notifyObservers(this.data);  
     }
 
     public void quitSystem() {

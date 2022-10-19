@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -66,21 +67,21 @@ public class LoginDatabase {
         Data data = new Data();
       try{
           Statement statement = conn.createStatement();
-          ResultSet rs = statement.executeQuery("SELECT userid, password FROM UserInfo "
-                    + "WHERE userid = '" + userID + "'");
-          if(rs.next()){
-              String pass = rs.getString("password");
-              System.out.println("***"+pass);
-              System.out.println("found user");  
-              if(password.compareTo(pass)==0){
-                  data.loginFlag = true;
-              }else{
-                  data.loginFlag = false;
-              }
+          String sql ="SELECT userid, password FROM UserInfo WHERE userid = '"+userID+"'and password= '"+password+"'"; 
+          ResultSet rs = statement.executeQuery(sql);
+          int count = 0;
+          while(rs.next()){
+              count+=1;
+          }
+          if(count==1){
+              JOptionPane.showMessageDialog(null,"User Found, Login Successfully!");
+              data.loginFlag = true; 
+          }else if(count>1){
+              JOptionPane.showMessageDialog(null, "Duplicate User, Login Denied!"); 
+              data.loginFlag = false; 
           }else{
-              System.out.println("no such user");
-              this.quitSystem();
-              data.loginFlag = false;
+              JOptionPane.showMessageDialog(null, "Login unsuccessfully! Invalid ID or password. Try Again or choose another option.");
+              data.loginFlag = false; 
           }
             
       }catch (SQLException ex) {
@@ -88,6 +89,25 @@ public class LoginDatabase {
     }
       return data;
     }  
+    
+    public Data createNewAccount(String userID, String password, String userName){
+        Data data = new Data();
+        LoginView view = new LoginView();
+        userID = view.newUserId.getText().trim();
+        password = view.newUserPassword.getText().trim();
+        userName = view.newUserName.getText().trim();
+        try {
+            Statement statement = conn.createStatement();
+            String sql = "INSERT INTO UserInfo VALUES('"+userID+"','"+userName+"','"+password+"')";
+            statement.execute(sql);
+            data.createNewAccDone = true;
+            JOptionPane.showMessageDialog(null, "You new Account has been created!");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
+    }
 
     public void quitSystem(){
         Statement statement;

@@ -31,6 +31,10 @@ public class Controller implements ActionListener {
             
             case "Create New Account":
                 this.view.createAnAccount();
+//                String newUserID = this.view.newUserId.getText().trim();
+//                String newUserName = this.view.newUserName.getText().trim();
+//                String newUserPassword = this.view.newUserPassword.getText().trim();
+//                this.model.createNewAcc(newUserID, newUserName, newUserPassword);
                 break;
                 
             case "Log in":
@@ -41,6 +45,16 @@ public class Controller implements ActionListener {
                 
             case "Quit":
                 this.view.quitSystem();
+                break;
+                
+            case "Register":
+                this.view.loginAccount();
+                break;
+                
+            case "Back":
+                this.view.goBackToQAMenu();
+                break;
+            default:
                 break;
                 
         }
