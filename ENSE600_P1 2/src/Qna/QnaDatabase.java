@@ -14,7 +14,7 @@ import java.sql.Statement;
 public class QnaDatabase {
 
     Connection conn = null;
-    String url = "jdbc:derby:PlayerDB;create=true";
+    String url = "jdbc:derby:QuestionDB;create=true";
     String dbusername = "pdc";  //your DB username
     String dbpassword = "pdc";   //your DB password
 
