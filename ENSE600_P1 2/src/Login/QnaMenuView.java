@@ -11,19 +11,53 @@ public class QnaMenuView extends javax.swing.JFrame {
 
     public Model model;
 
-    public QnaMenuView() {
+    public QnaMenuView(Model model) {
         initComponents();
-        this.model = new Model();
-        this.setTitle("ENSE600/COMP603 QNA APP");
+        this.model = model;
+        this.setTitle("ENSE600/COMP603 Q&A APP - Questions");
         this.setResizable(false);
-        loadQuestions();
+        loadQuestions("All");
+        this.setVisible(true);
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
-    private void loadQuestions() {
+    private void loadQuestions(String topic) {
+        questionList.clear();
         int i = 0;
-        for (Question q : model.questionData.questions.values()) {
-            questionList.add(q.toString(), i);
-            i++;
+        if (topic.contentEquals("All")) {
+            for (Question q : model.questionData.questions.values()) {
+                questionList.add(q.toString(), i);
+                i++;
+            }
+        } else {
+            for (Question q : model.questionData.questions.values()) {
+                if (q.getTopic().contentEquals(topic)) {
+                    questionList.add(q.toString(), i);
+                }
+                i++;
+            }
+        }
+
+    }
+
+    private void loadUnansweredQuestions(String topic) {
+        questionList.clear();
+        int i = 0;
+        if (topic.contentEquals("All")) {
+            for (Question q : model.questionData.questions.values()) {
+                if (q.answers.isEmpty()) {
+                    questionList.add(q.toString(), i);
+                }
+                i++;
+            }
+        } else {
+            for (Question q : model.questionData.questions.values()) {
+                if (q.answers.isEmpty() && q.getTopic().contentEquals(topic)) {
+                    questionList.add(q.toString(), i);
+                }
+                i++;
+            }
         }
     }
 
@@ -33,21 +67,21 @@ public class QnaMenuView extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         questionField = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        unansweredQuestionsFilter = new javax.swing.JCheckBox();
         askQuestion = new java.awt.Button();
         questionList = new java.awt.List();
         questionListLabel = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        topicSelector = new javax.swing.JComboBox<>();
+        topicFilter = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mainMenu = new javax.swing.JMenu();
-        browseQuestions = new javax.swing.JMenu();
-        browseTopics = new javax.swing.JMenu();
         logOut = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("ENSE600/COMP603 QNA APP");
+        jLabel1.setText("ENSE600/COMP603 Q&A APP");
 
         questionField.setText("Ask your question here");
         questionField.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -56,7 +90,12 @@ public class QnaMenuView extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setText(" Unanswered Questions");
+        unansweredQuestionsFilter.setText(" Unanswered Questions");
+        unansweredQuestionsFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unansweredQuestionsFilterActionPerformed(evt);
+            }
+        });
 
         askQuestion.setActionCommand("askQuestion");
         askQuestion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -67,6 +106,7 @@ public class QnaMenuView extends javax.swing.JFrame {
             }
         });
 
+        questionList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         questionList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 questionListMouseClicked(evt);
@@ -76,7 +116,16 @@ public class QnaMenuView extends javax.swing.JFrame {
         questionListLabel.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         questionListLabel.setText("Questions");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        topicSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Assignment 1", "Assignment 2", "Labs", "Lectures" }));
+
+        topicFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "General", "Assignment 1", "Assignment 2", "Labs", "Lectures" }));
+        topicFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                topicFilterActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Filter:");
 
         mainMenu.setText("Main Menu");
         mainMenu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -85,22 +134,6 @@ public class QnaMenuView extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(mainMenu);
-
-        browseQuestions.setText("Browse Questions");
-        browseQuestions.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                browseQuestionsMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(browseQuestions);
-
-        browseTopics.setText("Browse Topics");
-        browseTopics.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                browseTopicsMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(browseTopics);
 
         logOut.setText("Logout");
         jMenuBar1.add(logOut);
@@ -112,44 +145,52 @@ public class QnaMenuView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(63, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(200, 200, 200)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(118, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(questionListLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(topicFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(unansweredQuestionsFilter))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(questionListLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox1))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(questionField, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(questionField, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(topicSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(askQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(questionList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(108, Short.MAX_VALUE))
+                            .addComponent(questionList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(62, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(195, 195, 195)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(27, 27, 27)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(questionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(topicSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(askQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(questionListLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(unansweredQuestionsFilter)
+                    .addComponent(questionListLabel)
+                    .addComponent(topicFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(questionList, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(43, 43, 43))
         );
 
         pack();
@@ -160,24 +201,24 @@ public class QnaMenuView extends javax.swing.JFrame {
         questionField.setText("Ask your question here");
     }//GEN-LAST:event_mainMenuMouseClicked
 
-    private void browseQuestionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_browseQuestionsMouseClicked
-        this.dispose();
-    }//GEN-LAST:event_browseQuestionsMouseClicked
-
     private void questionFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_questionFieldMouseClicked
-        questionField.setText("");
+        if (questionField.getText().contains("Ask your question here")) {
+            questionField.setText("");
+        }
     }//GEN-LAST:event_questionFieldMouseClicked
-
-    private void browseTopicsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_browseTopicsMouseClicked
-        this.dispose();
-    }//GEN-LAST:event_browseTopicsMouseClicked
 
     private void askQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_askQuestionActionPerformed
         if (questionField.getText().isEmpty() || questionField.getText().contains("Ask your question here")) {
             String msg = "Invalid question.";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
         } else {
-//            Question q = new Question();
+            String question = questionField.getText();
+            String author = "Josh Sun";
+            String topic = (String) topicSelector.getSelectedItem();
+            Question q = new Question(question, author, topic);
+            model.qnaDb.insertQuestion(q);
+            model.questionData = model.qnaDb.initialiseQuestions();
+            loadQuestions((String) topicFilter.getSelectedItem());
         }
     }//GEN-LAST:event_askQuestionActionPerformed
 
@@ -188,26 +229,31 @@ public class QnaMenuView extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, msg, "Question", HEIGHT);
     }//GEN-LAST:event_questionListMouseClicked
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new QnaMenuView().setVisible(true);
-            }
-        });
-    }
+    private void unansweredQuestionsFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unansweredQuestionsFilterActionPerformed
+        if (unansweredQuestionsFilter.isSelected()) {
+            loadUnansweredQuestions((String) topicFilter.getSelectedItem());
+        } else {
+            loadQuestions((String) topicFilter.getSelectedItem());
+        }
+    }//GEN-LAST:event_unansweredQuestionsFilterActionPerformed
+
+    private void topicFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topicFilterActionPerformed
+        loadQuestions((String) topicFilter.getSelectedItem());
+    }//GEN-LAST:event_topicFilterActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button askQuestion;
-    private javax.swing.JMenu browseQuestions;
-    private javax.swing.JMenu browseTopics;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu logOut;
     private javax.swing.JMenu mainMenu;
     private javax.swing.JTextField questionField;
     private java.awt.List questionList;
     private javax.swing.JLabel questionListLabel;
+    private javax.swing.JComboBox<String> topicFilter;
+    private javax.swing.JComboBox<String> topicSelector;
+    private javax.swing.JCheckBox unansweredQuestionsFilter;
     // End of variables declaration//GEN-END:variables
 }
