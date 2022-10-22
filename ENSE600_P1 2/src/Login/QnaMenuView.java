@@ -14,7 +14,7 @@ public class QnaMenuView extends javax.swing.JFrame {
     public QnaMenuView(Model model) {
         initComponents();
         this.model = model;
-        this.setTitle("ENSE600/COMP603 Q&A APP - Questions");
+        this.setTitle("ENSE600/COMP603 Q&A APP - Menu");
         this.setResizable(false);
         loadQuestions("All");
         this.setVisible(true);
@@ -210,6 +210,9 @@ public class QnaMenuView extends javax.swing.JFrame {
     private void askQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_askQuestionActionPerformed
         if (questionField.getText().isEmpty() || questionField.getText().contains("Ask your question here")) {
             String msg = "Invalid question.";
+            JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
+        } else if (questionField.getText().length() > 119) {
+            String msg = "You question exceeds maximum allowed characters (120)";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
         } else {
             String question = questionField.getText();
