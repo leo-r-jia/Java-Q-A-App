@@ -14,15 +14,21 @@ public class Model extends Observable {
 
     public QnaDatabase qnaDb;
     public LoginDatabase loginDb;
+    
+    public QuestionData questionData;
     public Data data = new Data();
+
     public String userID;
     public String username;
 
     public Model() {
         this.loginDb = new LoginDatabase();
         this.loginDb.dbsetup();
+
         this.qnaDb = new QnaDatabase();
         this.qnaDb.setup();
+
+        questionData = qnaDb.initialiseQuestions();
     }
 
     public void checkName(String userID, String password) {
@@ -48,6 +54,9 @@ public class Model extends Observable {
     }
 
     public void newQuestion(String question, String topic) {
+        question = question.replace("'", "''");
+        topic = topic.replace("'", "''");
         Question newQuestion = new Question(question, this.username, topic);
+        qnaDb.insertQuestion(newQuestion);
     }
 }

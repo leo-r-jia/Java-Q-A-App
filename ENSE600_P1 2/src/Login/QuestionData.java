@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
  */
 public class QuestionData {
 
-    protected LinkedHashMap<String, ense600_p1.Question> questions;
+    protected LinkedHashMap<Integer, Question> questions;
     
     public QuestionData() {
         questions = new LinkedHashMap<>();

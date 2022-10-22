@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,8 +17,10 @@ public class QnaDatabase {
 
     private Connection conn = null;
     private static final String url = "jdbc:derby:QuestionDB;create=true";
+
     private static final String dbusername = "pdc";  //your DB username
     private static final String dbpassword = "pdc";   //your DB password
+
     private Statement myStatObj = null;
     private ResultSet myResObj = null;
 
@@ -29,10 +33,9 @@ public class QnaDatabase {
             if (!checkTableExisting(tableName)) {
                 myStatObj.executeUpdate("CREATE TABLE " + tableName + " (questionid VARCHAR(38), question VARCHAR(120), username VARCHAR(30), topic VARCHAR(30))");
             }
-            myStatObj.close();
-
         } catch (Throwable e) {
-            System.out.println("SQL error");
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            System.out.println("Setup error");
         }
     }
 
@@ -67,33 +70,43 @@ public class QnaDatabase {
         }
     }
 
-    public void newQuestion(Question question) {
-        String statement = "INSERT INTO QUESTIONS (QUESTIONID, QUESTION, USERNAME, "
-                + "TOPIC) VALUES ('" + question.getqId() + "', '" + question.getText()
-                + "', '" + question.getAuthor() + "', '" + question.getTopic() + "')";
+    public void insertQuestion(Question question) {
+        String statement = "INSERT INTO Questions VALUES ('" + question.getqId()
+                + "', '" + question.getText() + "', '" + question.getAuthor()
+                + "', '" + question.getTopic() + "')";
+        System.out.println(statement);
         try {
-            myStatObj.executeUpdate(statement);
+            myStatObj.execute(statement);
         } catch (Throwable e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
             System.out.println("newQuestion SQL error");
         }
     }
 
-    public void initialiseQuestions() {
+    public QuestionData initialiseQuestions() {
+        QuestionData questionData = new QuestionData();
+        int i = 0;
         try {
-            myResObj = myStatObj.executeQuery("SELECT * FROM BOOKINGS");
+            myResObj = myStatObj.executeQuery("SELECT * FROM Questions");
             while (myResObj.next()) {
-                
+                String questionid = myResObj.getString("questionid").replace("''", "'");
+                String question = myResObj.getString("question");
+                String author = myResObj.getString("username");
+                String topic = myResObj.getString("topic");
+                Question q = new Question(questionid, question, author, topic);
+                questionData.questions.put(i, q);
+                i++;
             }
         } catch (SQLException e) {
-            System.err.println("SQLException: " + e.getMessage());
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            System.err.println("initialiseQuestions SQLException: " + e.getMessage());
         }
-
+        return questionData;
     }
 
     public static void main(String[] args) {
         QnaDatabase q = new QnaDatabase();
         q.setup();
-        Question qu = new Question("Does anyone know Weihua's email?", "Lily Chen", "General");
-        q.newQuestion(qu);
+        
     }
 }
