@@ -4,7 +4,6 @@ package Login;
  *
  * @author Leo Jia
  */
-
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -22,7 +21,7 @@ public class Question extends Text {
         this.qId = UUID.randomUUID().toString();
         this.topic = topic;
     }
-    
+
     //Constructor when initializing database
     public Question(String qId, String text, String author, String topic) {
         super(text, author);
@@ -30,13 +29,10 @@ public class Question extends Text {
         this.qId = qId;
         this.topic = topic;
     }
-    
+
     //toString method
-    public String toString(){
-        if (!answers.isEmpty()){
-            return getText() + " (" + getAuthor() + ")" + "\nAnswers:" + answers.toString() + "\n";
-        }
-        return getText() + " (" + getAuthor() + ")";
+    public String toString() {
+        return getText() + "   (" + getAuthor() + ")";
     }
 
     //Get methds for Id and Topic

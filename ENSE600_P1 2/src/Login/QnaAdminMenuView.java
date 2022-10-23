@@ -7,14 +7,14 @@ import javax.swing.JOptionPane;
  *
  * @author Leo
  */
-public class QnaMenuView extends javax.swing.JFrame {
+public class QnaAdminMenuView extends javax.swing.JFrame {
 
     public Model model;
 
-    public QnaMenuView(Model model) {
+    public QnaAdminMenuView(Model model) {
         initComponents();
         this.model = model;
-        this.setTitle("ENSE600/COMP603 Q&A APP - Menu");
+        this.setTitle("ENSE600/COMP603 Q&A APP - Admin Menu");
         this.setResizable(false);
         loadQuestions("All");
         this.setVisible(true);

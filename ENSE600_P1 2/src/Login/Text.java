@@ -4,7 +4,6 @@ package Login;
  *
  * @author Leo Jia
  */
-
 //Abstract class text, with a string of text and the author name/username
 public abstract class Text {
 
@@ -19,7 +18,7 @@ public abstract class Text {
 
     //Default toString
     public String toString() {
-        return getText() + " (" + getAuthor() + ")";
+        return getText() + "   (" + getAuthor() + ")";
     }
 
     //Get methods
