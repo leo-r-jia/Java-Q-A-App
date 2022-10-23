@@ -80,8 +80,10 @@ public class QnaDatabase {
     }
 
     public void insertQuestion(Question question) {
-        String statement = "INSERT INTO Questions VALUES ('" + question.getqId()
-                + "', '" + question.getText() + "', '" + question.getAuthor()
+        String statement = "INSERT INTO Questions VALUES ('"
+                + question.getqId().replace("'", "''")
+                + "', '" + question.getText().replace("'", "''")
+                + "', '" + question.getAuthor()
                 + "', '" + question.getTopic() + "')";
         System.out.println(statement);
         try {
@@ -92,8 +94,10 @@ public class QnaDatabase {
     }
 
     public void insertAnswer(Answer answer) {
-        String statement = "INSERT INTO Answers VALUES ('" + answer.getQuestionid()
-                + "', '" + answer.getText() + "', '" + answer.getAuthor() + "')";
+        String statement = "INSERT INTO Answers VALUES ('"
+                + answer.getQuestionid().replace("'", "''")
+                + "', '" + answer.getText().replace("'", "''") + "', '"
+                + answer.getAuthor() + "')";
         System.out.println(statement);
         try {
             myStatObj.execute(statement);
@@ -107,7 +111,7 @@ public class QnaDatabase {
             myResObj = myStatObj.executeQuery("SELECT * FROM Questions");
             while (myResObj.next()) {
                 String questionid = myResObj.getString("questionid").replace("''", "'");
-                String question = myResObj.getString("question");
+                String question = myResObj.getString("question").replace("''", "'");;
                 String author = myResObj.getString("username");
                 String topic = myResObj.getString("topic");
                 Question q = new Question(questionid, question, author, topic);
@@ -126,7 +130,7 @@ public class QnaDatabase {
             myResObj = myStatObj.executeQuery("SELECT * FROM Answers");
             while (myResObj.next()) {
                 String questionid = myResObj.getString("questionid").replace("''", "'");
-                String answer = myResObj.getString("question").replace("''", "'");
+                String answer = myResObj.getString("answer").replace("''", "'");
                 String author = myResObj.getString("username");
                 Answer a = new Answer(questionid, answer, author);
                 qd.questions.get(questionid).answers.add(a);
@@ -144,6 +148,5 @@ public class QnaDatabase {
         q.setup();
         q.initialiseQuestions(qd);
         q.initialiseAnswers(qd);
-        Answer a = new Answer("84cefe42-2ed7-4046-bf6e-d5cf06e3c941", "No I don't think so")
     }
 }

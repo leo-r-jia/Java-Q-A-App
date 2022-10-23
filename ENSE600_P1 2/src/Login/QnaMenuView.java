@@ -206,7 +206,7 @@ public class QnaMenuView extends javax.swing.JFrame {
             String msg = "Invalid question.";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
         } else if (questionField.getText().length() > 119) {
-            String msg = "You question exceeds maximum allowed characters (120)";
+            String msg = "Your question exceeds maximum allowed characters (120)";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
         } else {
             String question = questionField.getText();
