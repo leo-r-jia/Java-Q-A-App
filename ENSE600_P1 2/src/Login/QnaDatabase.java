@@ -88,7 +88,17 @@ public class QnaDatabase {
             myStatObj.execute(statement);
         } catch (Throwable e) {
             Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
-            System.out.println("newQuestion SQL error");
+        }
+    }
+
+    public void insertAnswer(Answer answer) {
+        String statement = "INSERT INTO Answers VALUES ('" + answer.getQuestionid()
+                + "', '" + answer.getText() + "', '" + answer.getAuthor() + "')";
+        System.out.println(statement);
+        try {
+            myStatObj.execute(statement);
+        } catch (Throwable e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -102,6 +112,8 @@ public class QnaDatabase {
                 String topic = myResObj.getString("topic");
                 Question q = new Question(questionid, question, author, topic);
                 qd.questions.put(questionid, q);
+                System.out.println(q.getqId());
+                System.out.println(q.toString());
             }
         } catch (SQLException e) {
             Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
@@ -109,13 +121,29 @@ public class QnaDatabase {
         }
     }
 
-    public void initialiseAnswers() {
-        
+    public void initialiseAnswers(QuestionData qd) {
+        try {
+            myResObj = myStatObj.executeQuery("SELECT * FROM Answers");
+            while (myResObj.next()) {
+                String questionid = myResObj.getString("questionid").replace("''", "'");
+                String answer = myResObj.getString("question").replace("''", "'");
+                String author = myResObj.getString("username");
+                Answer a = new Answer(questionid, answer, author);
+                qd.questions.get(questionid).answers.add(a);
+                System.out.println(a.toString());
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            System.err.println("initialiseQuestions SQLException: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
         QnaDatabase q = new QnaDatabase();
+        QuestionData qd = new QuestionData();
         q.setup();
-
+        q.initialiseQuestions(qd);
+        q.initialiseAnswers(qd);
+        Answer a = new Answer("84cefe42-2ed7-4046-bf6e-d5cf06e3c941", "No I don't think so")
     }
 }

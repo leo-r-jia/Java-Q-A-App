@@ -30,6 +30,7 @@ public class Model extends Observable {
 
         questionData = new QuestionData();
         qnaDb.initialiseQuestions(questionData);
+        qnaDb.initialiseAnswers(questionData);
     }
 
     public void checkName(String userID, String password) {
