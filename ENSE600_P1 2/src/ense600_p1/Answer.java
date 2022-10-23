@@ -7,15 +7,7 @@ package ense600_p1;
 //Answer class
 public class Answer extends Text {
 
-    private String questionid;
-
-    public Answer(String questionid, String text, String author) {
+    public Answer(String text, String author) {
         super(text, author);
-        this.questionid = questionid;
     }
-
-    public String getQuestionid() {
-        return questionid;
-    }
-    
 }

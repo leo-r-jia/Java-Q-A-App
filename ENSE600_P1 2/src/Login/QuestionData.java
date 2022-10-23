@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
  */
 public class QuestionData {
 
-    protected LinkedHashMap<Integer, Question> questions;
+    protected LinkedHashMap<String, Question> questions;
     
     public QuestionData() {
         questions = new LinkedHashMap<>();

@@ -24,18 +24,15 @@ public class QnaMenuView extends javax.swing.JFrame {
 
     private void loadQuestions(String topic) {
         questionList.clear();
-        int i = 0;
         if (topic.contentEquals("All")) {
             for (Question q : model.questionData.questions.values()) {
-                questionList.add(q.toString(), i);
-                i++;
+                questionList.add(q.toString());
             }
         } else {
             for (Question q : model.questionData.questions.values()) {
                 if (q.getTopic().contentEquals(topic)) {
-                    questionList.add(q.toString(), i);
+                    questionList.add(q.toString());
                 }
-                i++;
             }
         }
 
@@ -43,20 +40,17 @@ public class QnaMenuView extends javax.swing.JFrame {
 
     private void loadUnansweredQuestions(String topic) {
         questionList.clear();
-        int i = 0;
         if (topic.contentEquals("All")) {
             for (Question q : model.questionData.questions.values()) {
                 if (q.answers.isEmpty()) {
-                    questionList.add(q.toString(), i);
+                    questionList.add(q.toString());
                 }
-                i++;
             }
         } else {
             for (Question q : model.questionData.questions.values()) {
                 if (q.answers.isEmpty() && q.getTopic().contentEquals(topic)) {
-                    questionList.add(q.toString(), i);
+                    questionList.add(q.toString());
                 }
-                i++;
             }
         }
     }
@@ -220,15 +214,20 @@ public class QnaMenuView extends javax.swing.JFrame {
             String topic = (String) topicSelector.getSelectedItem();
             Question q = new Question(question, author, topic);
             model.qnaDb.insertQuestion(q);
-            model.questionData = model.qnaDb.initialiseQuestions();
+            model.qnaDb.initialiseQuestions(model.questionData);
             loadQuestions((String) topicFilter.getSelectedItem());
         }
     }//GEN-LAST:event_askQuestionActionPerformed
 
     private void questionListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_questionListMouseClicked
-        int index = questionList.getSelectedIndex();
-        Question q = model.questionData.questions.get(index);
-        String msg = q.toString();
+        String questionText = questionList.getSelectedItem();
+        Question selectedQuestion = null;
+        for (Question q : model.questionData.questions.values()) {
+            if (q.toString().equals(questionText)) {
+                selectedQuestion = q;
+            }
+        }
+        String msg = selectedQuestion.toString();
         JOptionPane.showMessageDialog(null, msg, "Question", HEIGHT);
     }//GEN-LAST:event_questionListMouseClicked
 

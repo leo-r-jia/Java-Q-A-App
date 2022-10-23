@@ -31,7 +31,16 @@ public class QnaDatabase {
             String tableName = "Questions";
 
             if (!checkTableExisting(tableName)) {
-                myStatObj.executeUpdate("CREATE TABLE " + tableName + " (questionid VARCHAR(38), question VARCHAR(120), username VARCHAR(30), topic VARCHAR(30))");
+                myStatObj.executeUpdate("CREATE TABLE " + tableName + " "
+                        + "(questionid VARCHAR(38), question VARCHAR(120), "
+                        + "username VARCHAR(30), topic VARCHAR(30))");
+            }
+            tableName = "Answers";
+
+            if (!checkTableExisting(tableName)) {
+                myStatObj.executeUpdate("CREATE TABLE " + tableName
+                        + " (questionid VARCHAR(38), answer VARCHAR(120), "
+                        + "username VARCHAR(30))");
             }
         } catch (Throwable e) {
             Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
@@ -83,9 +92,7 @@ public class QnaDatabase {
         }
     }
 
-    public QuestionData initialiseQuestions() {
-        QuestionData questionData = new QuestionData();
-        int i = 0;
+    public void initialiseQuestions(QuestionData qd) {
         try {
             myResObj = myStatObj.executeQuery("SELECT * FROM Questions");
             while (myResObj.next()) {
@@ -94,19 +101,21 @@ public class QnaDatabase {
                 String author = myResObj.getString("username");
                 String topic = myResObj.getString("topic");
                 Question q = new Question(questionid, question, author, topic);
-                questionData.questions.put(i, q);
-                i++;
+                qd.questions.put(questionid, q);
             }
         } catch (SQLException e) {
             Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
             System.err.println("initialiseQuestions SQLException: " + e.getMessage());
         }
-        return questionData;
+    }
+
+    public void initialiseAnswers() {
+        
     }
 
     public static void main(String[] args) {
         QnaDatabase q = new QnaDatabase();
         q.setup();
-        
+
     }
 }

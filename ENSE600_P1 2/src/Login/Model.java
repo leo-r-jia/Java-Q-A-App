@@ -28,7 +28,8 @@ public class Model extends Observable {
         this.qnaDb = new QnaDatabase();
         this.qnaDb.setup();
 
-        questionData = qnaDb.initialiseQuestions();
+        questionData = new QuestionData();
+        qnaDb.initialiseQuestions(questionData);
     }
 
     public void checkName(String userID, String password) {
