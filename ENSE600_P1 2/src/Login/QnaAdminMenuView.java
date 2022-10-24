@@ -14,7 +14,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
     public QnaAdminMenuView(Model model) {
         initComponents();
         this.model = model;
-        this.setTitle("ENSE600/COMP603 Q&A APP - Admin Menu");
+        this.setTitle("ENSE600/COMP603 Q&A APP Admin Menu");
         this.setResizable(false);
         loadQuestions("All");
         this.setVisible(true);
@@ -111,8 +111,10 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
         questionListLabel.setText("Questions");
 
         topicSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Assignment 1", "Assignment 2", "Labs", "Lectures" }));
+        topicSelector.setOpaque(true);
 
         topicFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "General", "Assignment 1", "Assignment 2", "Labs", "Lectures" }));
+        topicFilter.setOpaque(true);
         topicFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 topicFilterActionPerformed(evt);
@@ -228,7 +230,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
             }
         }
         this.dispose();
-        QnaQuestionView qv = new QnaQuestionView(this.model, selectedQuestion);
+        QnaQuestionAdminView qv = new QnaQuestionAdminView(this.model, selectedQuestion);
     }//GEN-LAST:event_questionListMouseClicked
 
     private void unansweredQuestionsFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unansweredQuestionsFilterActionPerformed

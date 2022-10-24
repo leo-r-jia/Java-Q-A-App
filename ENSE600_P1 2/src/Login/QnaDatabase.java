@@ -106,6 +106,17 @@ public class QnaDatabase {
         }
     }
 
+    public void deleteQuestion(Question question) {
+        String statement = "DELETE FROM Questions WHERE questionid = '"
+                + question.getqId().replace("'", "''") + "'";
+        System.out.println(statement);
+        try {
+            myStatObj.execute(statement);
+        } catch (Throwable e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
     public void initialiseQuestions(QuestionData qd) {
         try {
             myResObj = myStatObj.executeQuery("SELECT * FROM Questions");
@@ -116,8 +127,6 @@ public class QnaDatabase {
                 String topic = myResObj.getString("topic");
                 Question q = new Question(questionid, question, author, topic);
                 qd.questions.put(questionid, q);
-                System.out.println(q.getqId());
-                System.out.println(q.toString());
             }
         } catch (SQLException e) {
             Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
@@ -134,7 +143,6 @@ public class QnaDatabase {
                 String author = myResObj.getString("username");
                 Answer a = new Answer(questionid, answer, author);
                 qd.questions.get(questionid).answers.add(a);
-                System.out.println(a.toString());
             }
         } catch (SQLException e) {
             Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
