@@ -95,6 +95,11 @@ public class QnaQuestionView extends javax.swing.JFrame {
         jMenuBar1.add(mainMenu);
 
         logOut.setText("Logout");
+        logOut.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logOutMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(logOut);
 
         setJMenuBar(jMenuBar1);
@@ -170,6 +175,15 @@ public class QnaQuestionView extends javax.swing.JFrame {
             initialisePage();
         }
     }//GEN-LAST:event_addAnswerActionPerformed
+
+    private void logOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutMouseClicked
+        String msg = "Are you sure you want to log out? ";
+        int result = JOptionPane.showConfirmDialog(null, msg, "Confirm Log Out", HEIGHT);
+        if (result == JOptionPane.YES_OPTION) {
+            this.dispose();
+            new App();
+        }
+    }//GEN-LAST:event_logOutMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -42,7 +42,7 @@ public class LoginView extends JFrame implements Observer {
 
     private JPanel quitPanel = new JPanel();
     private JButton quitButton = new JButton("Quit");
-    private JLabel goodbye = null;
+    private JLabel goodbye = new JLabel("Goodbye! See you next time!");
 
     private JButton backButton = new JButton("Back");
 
