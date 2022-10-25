@@ -14,7 +14,7 @@ public class Model extends Observable {
 
     public QnaDatabase qnaDb;
     public LoginDatabase loginDb;
-    
+
     public QuestionData questionData;
     public Data data = new Data();
 
@@ -28,6 +28,10 @@ public class Model extends Observable {
         this.qnaDb = new QnaDatabase();
         this.qnaDb.setup();
 
+        this.initialiseQuestionData();
+    }
+
+    public void initialiseQuestionData() {
         questionData = new QuestionData();
         qnaDb.initialiseQuestions(questionData);
         qnaDb.initialiseAnswers(questionData);
@@ -57,8 +61,16 @@ public class Model extends Observable {
 
     public void newQuestion(String question, String topic) {
         question = question.replace("'", "''");
-        topic = topic.replace("'", "''");
         Question newQuestion = new Question(question, this.username, topic);
         qnaDb.insertQuestion(newQuestion);
+        initialiseQuestionData();
+    }
+
+    public void newAnswer(String questionid, String answer) {
+        questionid = questionid.replace("'", "''");
+        answer = answer.replace("'", "''");
+        Answer newAnswer = new Answer(questionid, answer, this.username);
+        qnaDb.insertAnswer(newAnswer);
+        initialiseQuestionData();
     }
 }

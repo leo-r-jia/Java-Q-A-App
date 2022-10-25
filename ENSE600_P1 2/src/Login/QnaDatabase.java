@@ -82,7 +82,7 @@ public class QnaDatabase {
     public void insertQuestion(Question question) {
         String statement = "INSERT INTO Questions VALUES ('"
                 + question.getqId().replace("'", "''")
-                + "', '" + question.getText().replace("'", "''")
+                + "', '" + question.getText()
                 + "', '" + question.getAuthor()
                 + "', '" + question.getTopic() + "')";
         System.out.println(statement);
@@ -95,8 +95,8 @@ public class QnaDatabase {
 
     public void insertAnswer(Answer answer) {
         String statement = "INSERT INTO Answers VALUES ('"
-                + answer.getQuestionid().replace("'", "''")
-                + "', '" + answer.getText().replace("'", "''") + "', '"
+                + answer.getQuestionid()
+                + "', '" + answer.getText() + "', '"
                 + answer.getAuthor() + "')";
         System.out.println(statement);
         try {
