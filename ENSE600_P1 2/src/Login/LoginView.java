@@ -72,12 +72,7 @@ public class LoginView extends JFrame implements Observer {
     private JButton deleteAccButton = new JButton("Delete an account");
     private JButton deleteButton = new JButton("Delete");
 
-    private JLabel welcomMessage = null;
-    private JLabel questionMenu = new JLabel("Would you like to... ");
-    private JButton askQuestion = new JButton("Ask a new question");
-    private JButton browseQuestions = new JButton("Browse all questions");
-    private JButton browseQuesByTopic = new JButton("Browse questions by topic");
-    private JButton answerQuestions = new JButton("Answer unanswered questions");
+    protected Model m;
 
     //The constructor initializes the frame window as well as the login interface.
     public LoginView() {
@@ -163,27 +158,8 @@ public class LoginView extends JFrame implements Observer {
     }
 
     public void loginAsAdmin() {
-        loginAsAdminPanel1.add(welcomMessage, BorderLayout.NORTH);
-        loginAsAdminPanel1.add(questionMenu, BorderLayout.CENTER);
-        loginAsAdminPanel2.add(deleteAccButton);
-        //loginAsAdminPanel2.add(createNewAccButton);
-        //loginAsAdminPanel2.add(resetPasswordButton);
-        loginAsAdminPanel2.add(askQuestion);
-        loginAsAdminPanel2.add(browseQuestions);
-        loginAsAdminPanel2.add(browseQuesByTopic);
-        loginAsAdminPanel2.add(answerQuestions);
-        loginAsAdminPanel2.add(quitButton);
-        this.quitButton.setForeground(Color.red);
-        this.loginAsAdminPanel2.add(backButton);
-
-        this.getContentPane().removeAll();
-        loginAsAdminPanel1.setVisible(true);
-        loginAsAdminPanel2.setVisible(true);
-        this.add(loginAsAdminPanel1, BorderLayout.CENTER);
-        this.add(loginAsAdminPanel2, BorderLayout.SOUTH);
-        this.revalidate();
-        this.repaint();
-
+        new QnaAdminMenuView(m);
+        this.dispose();
     }
 
     public void deleteAcc() {
@@ -201,23 +177,8 @@ public class LoginView extends JFrame implements Observer {
     }
 
     public void printQuestionMenu() {
-        QAMenu1.add(welcomMessage, BorderLayout.NORTH);
-        QAMenu1.add(questionMenu, BorderLayout.CENTER);
-        QAMenu2.add(askQuestion);
-        QAMenu2.add(browseQuestions);
-        QAMenu2.add(browseQuesByTopic);
-        QAMenu2.add(answerQuestions);
-        QAMenu2.add(quitButton);
-        this.quitButton.setForeground(Color.red);
-        QAMenu2.add(backButton);
-
-        this.getContentPane().removeAll();
-        QAMenu1.setVisible(true);
-        QAMenu2.setVisible(true);
-        this.add(QAMenu1, BorderLayout.CENTER);
-        this.add(QAMenu2, BorderLayout.SOUTH);
-        this.revalidate();
-        this.repaint();
+        new QnaMenuView(m);
+        this.dispose();
     }
 
     public void addActionListener(ActionListener listener) {
@@ -254,8 +215,6 @@ public class LoginView extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         LoginData data = (LoginData) arg;
-        welcomMessage = new JLabel("Kia ora, " + data.username + "! You have logged in successfully.");
-        goodbye = new JLabel("Goodbye, " + data.username + "! See you next time!");
         if (!data.hasAnAccount) {//if the user has an account, to the login window
             this.loginAccount();
             if (data.loginFlag == true) {//if the user ID and password matching the information in db then go to the QAMenu window

@@ -20,8 +20,8 @@ public class Database {
     private Connection conn = null;
     private static final String url = "jdbc:derby:AppDatabase;create=true";
 
-    private static final String dbusername = "pdc"; 
-    private static final String dbpassword = "pdc";  
+    private static final String dbusername = "pdc";
+    private static final String dbpassword = "pdc";
 
     private Statement myStatObj = null;
     private ResultSet myResObj = null;
@@ -50,7 +50,7 @@ public class Database {
                         + "answer VARCHAR(120), username VARCHAR(30))");
             }
         } catch (Throwable e) {
-            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
             System.out.println("Setup error");
         }
     }
@@ -73,7 +73,7 @@ public class Database {
                 rsDBMeta.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(LoginDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return flag;
     }
@@ -111,7 +111,7 @@ public class Database {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(LoginDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
     }
@@ -131,7 +131,7 @@ public class Database {
                 data.accountExist = false;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(LoginDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
     }
@@ -156,7 +156,7 @@ public class Database {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(LoginDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
     }
@@ -180,7 +180,7 @@ public class Database {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(LoginDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return data;
@@ -203,7 +203,7 @@ public class Database {
                 JOptionPane.showMessageDialog(null, "The user ID you want to delete does not EXSIT!");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(LoginDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
     }
@@ -218,7 +218,7 @@ public class Database {
         try {
             myStatObj.execute(statement);
         } catch (Throwable e) {
-            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -231,7 +231,7 @@ public class Database {
         try {
             myStatObj.execute(statement);
         } catch (Throwable e) {
-            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -242,7 +242,7 @@ public class Database {
         try {
             myStatObj.execute(statement);
         } catch (Throwable e) {
-            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -252,7 +252,7 @@ public class Database {
         try {
             myStatObj.execute(statement);
         } catch (Throwable e) {
-            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -268,7 +268,7 @@ public class Database {
                 qd.questions.put(questionid, q);
             }
         } catch (SQLException e) {
-            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
             System.err.println("initialiseQuestions SQLException: " + e.getMessage());
         }
     }
@@ -285,7 +285,7 @@ public class Database {
                 qd.questions.get(questionid).answers.add(a);
             }
         } catch (SQLException e) {
-            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
             System.err.println("initialiseQuestions SQLException: " + e.getMessage());
         }
     }
@@ -295,7 +295,7 @@ public class Database {
         try {
             myStatObj.close();
         } catch (SQLException ex) {
-            Logger.getLogger(LoginDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
