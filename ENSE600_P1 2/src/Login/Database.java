@@ -26,6 +26,7 @@ public class Database {
     private Statement myStatObj = null;
     private ResultSet myResObj = null;
 
+    //initialise database connection
     public void setup() {
         String tableName;
         try {
@@ -185,7 +186,7 @@ public class Database {
         return data;
     }
 
-//a method to allow the admin user to delete an account by using userID
+    //a method to allow the admin user to delete an account by using userID
     public LoginData deleteAcc(String userID) {
         //initilizing the instance of Data
         LoginData data = new LoginData();

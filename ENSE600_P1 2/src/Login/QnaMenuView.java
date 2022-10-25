@@ -240,8 +240,8 @@ public class QnaMenuView extends javax.swing.JFrame {
             String author = "Josh Sun";
             String topic = (String) topicSelector.getSelectedItem();
             Question q = new Question(question, author, topic);
-            model.qnaDb.insertQuestion(q);
-            model.qnaDb.initialiseQuestions(model.questionData);
+            model.db.insertQuestion(q);
+            model.db.initialiseQuestions(model.questionData);
             loadQuestions((String) topicFilter.getSelectedItem());
         }
     }//GEN-LAST:event_askQuestionActionPerformed

@@ -13,95 +13,90 @@ import java.util.Observable;
  */
 public class Model extends Observable {
 
-    public QnaDatabase qnaDb;
-    public LoginDatabase db;
+    public Database db;
 
     public QuestionData questionData;
-    public LoginData data = new LoginData();
-
-    public String userID;
-    public String username;
+    public LoginData loginData;
 
     public Model() {
-        this.db = new LoginDatabase();
-        this.db.dbsetup();
+        this.db = new Database();
+        this.db.setup();
 
-        this.qnaDb = new QnaDatabase();
-        this.qnaDb.setup();
+        this.loginData = new LoginData();
+        this.questionData = new QuestionData();
 
         this.initialiseQuestionData();
     }
 
     public void initialiseQuestionData() {
         questionData = new QuestionData();
-        qnaDb.initialiseQuestions(questionData);
-        qnaDb.initialiseAnswers(questionData);
+        db.initialiseQuestions(questionData);
+        db.initialiseAnswers(questionData);
     }
 
     //Compare userID and password with that inside db.
     public void loginAcc(String userID, String password) {
-        this.userID = userID;
-        this.data = this.db.loginAcc(userID, password);
+        this.loginData = this.db.loginAcc(userID, password);
         this.setChanged();
-        this.notifyObservers(this.data);
+        this.notifyObservers(this.loginData);
     }
 
     //generate a new account and write back to db
     public void createNewAcc(String userID, String userName, String password) {
-        this.userID = userID;
         this.db.createNewAccount(userID, password, userName);
 
         this.setChanged();
-        this.notifyObservers(this.data);
+        this.notifyObservers(this.loginData);
     }
 
     //add the new password back to db
     public void resetPassword(String userID, String newPassword) {
-        this.userID = userID;
         this.db.resetPassword(userID, newPassword);
         this.setChanged();
-        this.notifyObservers(this.data);
+        this.notifyObservers(this.loginData);
     }
 
     //delete the information which matching with the userID in db
     public void deleteAcc(String userID) {
-        this.userID = userID;
         this.db.deleteAcc(userID);
         this.setChanged();
-        this.notifyObservers(this.data);
-
+        this.notifyObservers(this.loginData);
     }
 
     //update data in db
     public void quitSystem() {
         this.db.quitSystem();
-        this.data.quitFlag = true;
+        this.loginData.quitFlag = true;
         this.setChanged();
-        this.notifyObservers(this.data);
+        this.notifyObservers(this.loginData);
     }
 
+    //insert new question in db, and reinitialise questionData
     public void newQuestion(String question, String topic) {
         question = question.replace("'", "''");
-        Question newQuestion = new Question(question, this.username, topic);
-        qnaDb.insertQuestion(newQuestion);
+        Question newQuestion = new Question(question, this.loginData.username, topic);
+        db.insertQuestion(newQuestion);
         initialiseQuestionData();
     }
 
+    //insert new answer in db, and reinitialise questionData
     public void newAnswer(String questionid, String answer) {
         questionid = questionid.replace("'", "''");
         answer = answer.replace("'", "''");
-        Answer newAnswer = new Answer(questionid, answer, this.username);
-        qnaDb.insertAnswer(newAnswer);
+        Answer newAnswer = new Answer(questionid, answer, this.loginData.username);
+        db.insertAnswer(newAnswer);
         initialiseQuestionData();
     }
 
+    //delete question in db, and reinitialise questionData
     public void deleteQuestion(Question q) {
-        qnaDb.deleteQuestion(q.getqId().replace("'", "''"));
+        db.deleteQuestion(q.getqId().replace("'", "''"));
         initialiseQuestionData();
     }
 
+    //delete answer in db, and reinitialise questionData
     public void deleteAnswer(Answer a) {
-        qnaDb.deleteQuestion(a.getAnswerid().replace("'", "''"));
+        db.deleteQuestion(a.getAnswerid().replace("'", "''"));
         initialiseQuestionData();
     }
 }

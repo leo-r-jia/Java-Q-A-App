@@ -35,7 +35,7 @@ public class Controller implements ActionListener {
             case "Log in":
                 String userID = this.view.uidInput.getText();
                 String password = this.view.pwInput.getText();
-                System.out.println(this.model.data.isAdmin);
+                System.out.println(this.model.loginData.isAdmin);
                 this.model.loginAcc(userID, password);
                 break;
 
