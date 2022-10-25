@@ -2,7 +2,8 @@ package Project2;
 
 /**
  *
- * @author yueli
+ * @author Katie LI and Leo JIA
+ * @Student ID:18003055 and 20115737
  */
 public class Main {
 

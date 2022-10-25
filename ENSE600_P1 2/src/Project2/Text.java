@@ -2,7 +2,8 @@ package Project2;
 
 /**
  *
- * @author Leo Jia
+ * @author Leo JIA
+ * @Student ID: 20115737
  */
 //Abstract class text, with a string of text and the author name/username
 public abstract class Text {

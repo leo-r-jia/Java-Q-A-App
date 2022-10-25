@@ -2,7 +2,8 @@ package Project2;
 
 /**
  *
- * @author Leo
+ * @author Leo JIA
+ * @Student ID: 20115737
  */
 public class QnaMain {
 

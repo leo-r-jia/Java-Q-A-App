@@ -4,7 +4,8 @@ import java.util.UUID;
 
 /**
  *
- * @author Leo Jia
+ * @author Leo JIA
+ * @Student ID: 20115737
  */
 //Answer class
 public class Answer extends Text {

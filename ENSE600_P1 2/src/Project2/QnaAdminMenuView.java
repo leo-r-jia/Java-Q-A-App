@@ -5,7 +5,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Leo
+ * @author Leo JIA
+ * @Student ID: 20115737
  */
 public class QnaAdminMenuView extends javax.swing.JFrame {
 
