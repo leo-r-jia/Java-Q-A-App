@@ -8,41 +8,79 @@ import java.util.Observable;
 
 /**
  *
- * @author yueli
+ * @author Katie and Leo
  */
-public class Model extends Observable{
-    
-    public LoginDatabase db;
+public class Model extends Observable {
+
+    public QnaDatabase qnaDb;
+    public LoginDatabase loginDb;
+
+    public QuestionData questionData;
     public Data data = new Data();
+
     public String userID;
-    
-    public Model(){
-        this.db = new LoginDatabase();
-        this.db.dbsetup();
-        
+    public String username;
+
+    public Model() {
+        this.loginDb = new LoginDatabase();
+        this.loginDb.dbsetup();
+
+        this.qnaDb = new QnaDatabase();
+        this.qnaDb.setup();
+
+        this.initialiseQuestionData();
+    }
+
+    public void initialiseQuestionData() {
+        questionData = new QuestionData();
+        qnaDb.initialiseQuestions(questionData);
+        qnaDb.initialiseAnswers(questionData);
     }
 
     public void checkName(String userID, String password) {
         this.userID = userID;
-        this.data = this.db.checkName(userID, password);
-        
+        this.data = this.loginDb.checkName(userID, password);
+
         this.setChanged();
         this.notifyObservers(this.data);
-      
     }
-    
-    public void createNewAcc(String userID, String userName, String password){
+
+    public void createNewAcc(String userID, String userName, String password) {
         this.userID = userID;
-        this.db.createNewAccount(userID, password, userName);
+        this.loginDb.createNewAccount(userID, password, userName);
         this.setChanged();
-        this.notifyObservers(this.data);  
+        this.notifyObservers(this.data);
     }
 
     public void quitSystem() {
-        this.db.quitSystem();
+        this.loginDb.quitSystem();
         this.data.quitFlag = true;
         this.setChanged();
-        this.notifyObservers(this.data);  
+        this.notifyObservers(this.data);
     }
-      
+
+    public void newQuestion(String question, String topic) {
+        question = question.replace("'", "''");
+        Question newQuestion = new Question(question, this.username, topic);
+        qnaDb.insertQuestion(newQuestion);
+        initialiseQuestionData();
+    }
+
+    public void newAnswer(String questionid, String answer) {
+        questionid = questionid.replace("'", "''");
+        answer = answer.replace("'", "''");
+        Answer newAnswer = new Answer(questionid, answer, this.username);
+        qnaDb.insertAnswer(newAnswer);
+        initialiseQuestionData();
+    }
+
+    public void deleteQuestion(Question q) {
+        qnaDb.deleteQuestion(q.getqId().replace("'", "''"));
+        initialiseQuestionData();
+    }
+
+    public void deleteAnswer(Answer a) {
+        qnaDb.deleteQuestion(a.getAnswerid().replace("'", "''"));
+        initialiseQuestionData();
+    }
 }
