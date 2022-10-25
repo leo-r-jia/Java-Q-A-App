@@ -24,7 +24,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
 
     private void setup() {
         loadQuestions("All");
-        
+
         topicFilter.add("All");
         topicFilter.add("General");
         topicFilter.add("Assignment 1");
@@ -32,7 +32,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
         topicFilter.add("Labs");
         topicFilter.add("Lectures");
         topicFilter.add("Other");
-        
+
         topicSelector.add("General");
         topicSelector.add("Assignment 1");
         topicSelector.add("Assignment 2");
@@ -237,11 +237,8 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
         } else {
             String question = questionField.getText();
-            String author = "Josh Sun";
             String topic = (String) topicSelector.getSelectedItem();
-            Question q = new Question(question, author, topic);
-            model.db.insertQuestion(q);
-            model.db.initialiseQuestions(model.questionData);
+            model.newQuestion(question, topic);
             loadQuestions((String) topicFilter.getSelectedItem());
         }
     }//GEN-LAST:event_askQuestionActionPerformed

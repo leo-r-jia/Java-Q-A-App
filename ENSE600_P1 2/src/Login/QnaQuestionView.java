@@ -35,6 +35,7 @@ public class QnaQuestionView extends javax.swing.JFrame {
     }
 
     private void populateAnswerList() {
+        answerList.removeAll();
         for (Answer a : q.answers) {
             answerList.add(a.toString());
         }
@@ -158,7 +159,14 @@ public class QnaQuestionView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
         } else {
             String answer = answerField.getText();
-            //addAnswer code
+            model.newAnswer(q.getqId(), answer);
+            answerField.setText("");
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            populateAnswerList();
         }
     }//GEN-LAST:event_addAnswerActionPerformed
 

@@ -1,5 +1,7 @@
 package Login;
 
+import java.util.UUID;
+
 /**
  *
  * @author Leo Jia
@@ -12,9 +14,10 @@ public class Answer extends Text {
 
     public Answer(String questionid, String text, String author) {
         super(text, author);
+        this.answerid = UUID.randomUUID().toString();
         this.questionid = questionid;
     }
-    
+
     public Answer(String answerid, String questionid, String text, String author) {
         super(text, author);
         this.questionid = questionid;
@@ -24,6 +27,7 @@ public class Answer extends Text {
     public String getQuestionid() {
         return questionid;
     }
+
     public String getAnswerid() {
         return answerid;
     }

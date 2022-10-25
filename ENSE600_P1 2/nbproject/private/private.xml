@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/Login/QnaDatabase.java</file>
-            <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/ense600_p1/Question.java</file>
+            <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/Login/Database.java</file>
+            <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/Login/QnaQuestionAdminView.java</file>
+            <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/Login/QnaMenuView.java</file>
+            <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/Login/QnaQuestionView.java</file>
             <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/Login/Model.java</file>
-            <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/Login/LoginDatabase.java</file>
+            <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/Login/Main.java</file>
             <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/Login/Controller.java</file>
+            <file>file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_P1%202/src/Login/QnaAdminMenuView.java</file>
         </group>
     </open-files>
 </project-private>
