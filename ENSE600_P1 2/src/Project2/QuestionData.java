@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
  */
 public class QuestionData {
 
+    //LinkedHashMap of questions with questionid as key
     protected LinkedHashMap<String, Question> questions;
     
     public QuestionData() {

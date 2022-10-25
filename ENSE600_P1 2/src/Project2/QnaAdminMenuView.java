@@ -12,6 +12,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
 
     public Model model;
 
+    //Constructor for Qna Admin Menu
     public QnaAdminMenuView(Model model) {
         initComponents();
         this.model = model;
@@ -23,6 +24,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
         setup();
     }
 
+    //Setup GUI
     private void setup() {
         loadQuestions("All");
 
@@ -42,6 +44,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
         topicSelector.add("Other");
     }
 
+    //Print questions onto GUI, sorted by topic
     private void loadQuestions(String topic) {
         questionList.clear();
         if (topic.contentEquals("All")) {
@@ -58,6 +61,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
 
     }
 
+    //Print unanswered questions onto GUI, sorted by topic
     private void loadUnansweredQuestions(String topic) {
         questionList.clear();
         if (topic.contentEquals("All")) {
@@ -223,25 +227,31 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Main menu button clicked
     private void mainMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMenuMouseClicked
         //Refresh page
         questionField.setText("Ask your question here");
     }//GEN-LAST:event_mainMenuMouseClicked
 
+    //Question field clicked
     private void questionFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_questionFieldMouseClicked
+        //Clear default text
         if (questionField.getText().contains("Ask your question here")) {
             questionField.setText("");
         }
     }//GEN-LAST:event_questionFieldMouseClicked
 
+    //Ask question button pressed
     private void askQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_askQuestionActionPerformed
+        //Check for invalid questions
         if (questionField.getText().isEmpty() || questionField.getText().contains("Ask your question here")) {
             String msg = "Invalid question.";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
-        } else if (questionField.getText().length() > 119) {
+        } //Check for lengthy question
+        else if (questionField.getText().length() > 119) {
             String msg = "Your question exceeds maximum allowed characters (120)";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
-        } else {
+        } else { //Create new question, update QuestionData and write to DB
             String question = questionField.getText();
             String topic = (String) topicSelector.getSelectedItem();
             model.newQuestion(question, topic);
@@ -250,6 +260,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_askQuestionActionPerformed
 
+    //If question pressed, load question view
     private void questionListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_questionListMouseClicked
         String questionText = questionList.getSelectedItem();
         Question selectedQuestion = null;
@@ -258,10 +269,13 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
                 selectedQuestion = q;
             }
         }
-        this.dispose();
-        QnaQuestionAdminView qv = new QnaQuestionAdminView(this.model, selectedQuestion);
+        if (selectedQuestion != null) {
+            this.dispose();
+            QnaQuestionView qv = new QnaQuestionView(this.model, selectedQuestion);
+        }
     }//GEN-LAST:event_questionListMouseClicked
 
+    //Filter button pressed
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
         if (unansweredQuestionsFilter.isSelected()) {
             loadUnansweredQuestions((String) topicFilter.getSelectedItem());
@@ -270,6 +284,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_filterButtonActionPerformed
 
+    //Log out button clicked
     private void logOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutMouseClicked
         String msg = "Are you sure you want to log out? ";
         int result = JOptionPane.showConfirmDialog(null, msg, "Confirm Log Out", HEIGHT);

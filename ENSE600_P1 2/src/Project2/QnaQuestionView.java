@@ -13,6 +13,7 @@ public class QnaQuestionView extends javax.swing.JFrame {
     public Model model;
     public Question q;
 
+    //Constructor for Question View
     public QnaQuestionView(Model model, Question q) {
         initComponents();
         this.q = q;
@@ -25,6 +26,7 @@ public class QnaQuestionView extends javax.swing.JFrame {
         initialisePage();
     }
 
+    //Setup GUI
     private void initialisePage() {
         questionLabel.setText("<html><p style=\"width:420px\">" + q.toString() + "</p></html>");
 
@@ -35,6 +37,7 @@ public class QnaQuestionView extends javax.swing.JFrame {
         populateAnswerList();
     }
 
+    //Print answers in answerList
     private void populateAnswerList() {
         answerList.clear();
         for (Answer a : q.answers) {
@@ -143,27 +146,33 @@ public class QnaQuestionView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Main menu clicked, go back to main menu
     private void mainMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMenuMouseClicked
         this.dispose();
         QnaMenuView qm = new QnaMenuView(this.model);
     }//GEN-LAST:event_mainMenuMouseClicked
 
+    //Answer field clicked
     private void answerFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_answerFieldMouseClicked
+        //Clear default text
         if (answerField.getText().contains("Add an answer")
                 || answerField.getText().contains("Be the first to answer")) {
             answerField.setText("");
         }
     }//GEN-LAST:event_answerFieldMouseClicked
 
+    //Add answer button clicked
     private void addAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAnswerActionPerformed
+        //Check for invalid answers
         if (answerField.getText().isEmpty() || answerField.getText().contains("Add an answer")
                 || answerField.getText().contains("Be the first to answer")) {
             String msg = "Invalid answer.";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
-        } else if (answerField.getText().length() > 119) {
+        }//Check for lengthy answers 
+        else if (answerField.getText().length() > 119) {
             String msg = "Your answer exceeds maximum allowed characters (120)";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
-        } else {
+        } else { //Add answer in questionData, DB, refresh page
             String answer = answerField.getText();
             answerField.setText("");
             model.newAnswer(q.getqId(), answer);
@@ -176,6 +185,7 @@ public class QnaQuestionView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addAnswerActionPerformed
 
+    //Log out button clicked
     private void logOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutMouseClicked
         String msg = "Are you sure you want to log out? ";
         int result = JOptionPane.showConfirmDialog(null, msg, "Confirm Log Out", HEIGHT);

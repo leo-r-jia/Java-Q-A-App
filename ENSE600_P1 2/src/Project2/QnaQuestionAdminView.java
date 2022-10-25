@@ -1,8 +1,6 @@
 package Project2;
 
-import java.awt.GridLayout;
 import static java.awt.image.ImageObserver.HEIGHT;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,6 +13,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
     public Model model;
     public Question q;
 
+    //Constructor for Question View
     public QnaQuestionAdminView(Model model, Question q) {
         initComponents();
         this.q = q;
@@ -27,6 +26,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         initialisePage();
     }
 
+    //Setup GUI
     private void initialisePage() {
         questionLabel.setText("<html><p style=\"width:420px\">" + q.toString() + "</p></html>");
 
@@ -37,6 +37,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         populateAnswerList();
     }
 
+    //Print answers in answerList
     private void populateAnswerList() {
         answerList.removeAll();
         for (Answer a : q.answers) {
@@ -58,6 +59,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         topicLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mainMenu = new javax.swing.JMenu();
+        profile = new javax.swing.JMenu();
         logOut = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -112,6 +114,14 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(mainMenu);
+
+        profile.setText("Profile");
+        profile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(profile);
 
         logOut.setText("Logout");
         logOut.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -174,11 +184,13 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Main menu clicked, go back to main menu
     private void mainMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMenuMouseClicked
         this.dispose();
         QnaAdminMenuView qm = new QnaAdminMenuView(this.model);
     }//GEN-LAST:event_mainMenuMouseClicked
 
+    //Answer field clicked
     private void answerFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_answerFieldMouseClicked
         if (answerField.getText().contains("Add an answer")
                 || answerField.getText().contains("Be the first to answer")) {
@@ -186,20 +198,23 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_answerFieldMouseClicked
 
+    //Add answer button clicked
     private void addAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAnswerActionPerformed
+        //Check for invalid answers
         if (answerField.getText().isEmpty() || answerField.getText().contains("Add an answer")
                 || answerField.getText().contains("Be the first to answer")) {
             String msg = "Invalid answer.";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
-        } else if (answerField.getText().length() > 119) {
+        }//Check for lengthy answers 
+        else if (answerField.getText().length() > 119) {
             String msg = "Your answer exceeds maximum allowed characters (120)";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
-        } else {
+        } else { //Add answer in questionData, DB, refresh page
             String answer = answerField.getText();
             answerField.setText("");
             model.newAnswer(q.getqId(), answer);
             try {
-                Thread.sleep(1200);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -207,6 +222,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addAnswerActionPerformed
 
+    //Delete selected answer in DB, questionData
     private void deleteSelectedAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteSelectedAnswerActionPerformed
         String selected = this.answerList.getSelectedItem();
         Answer answer = null;
@@ -220,10 +236,12 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         int result = JOptionPane.showConfirmDialog(null, msg, "Confirm Delete", HEIGHT);
         if (result == JOptionPane.YES_OPTION) {
             this.model.deleteAnswer(answer);
+            //Remove directly from answerList for instant feedback
             answerList.remove(selected);
         }
     }//GEN-LAST:event_deleteSelectedAnswerActionPerformed
 
+    //Delete question in DB, questionData
     private void deleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteQuestionActionPerformed
         String msg = "Are you sure you want to delete the question "
                 + q.getText() + " by " + q.getAuthor() + "?";
@@ -233,10 +251,12 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, msg, "Question Deleted", HEIGHT);
             this.model.deleteQuestion(q);
             this.dispose();
+            //Exits to main menu
             new QnaAdminMenuView(model);
         }
     }//GEN-LAST:event_deleteQuestionActionPerformed
 
+    //Log out button clicked
     private void logOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutMouseClicked
         String msg = "Are you sure you want to log out? ";
         int result = JOptionPane.showConfirmDialog(null, msg, "Confirm Log Out", HEIGHT);
@@ -245,6 +265,11 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
             new App();
         }
     }//GEN-LAST:event_logOutMouseClicked
+
+    private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
+        this.dispose();
+        new QnaProfileView(model);
+    }//GEN-LAST:event_profileMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -257,6 +282,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu logOut;
     private javax.swing.JMenu mainMenu;
+    private javax.swing.JMenu profile;
     private javax.swing.JLabel questionLabel;
     private javax.swing.JLabel topicLabel;
     // End of variables declaration//GEN-END:variables

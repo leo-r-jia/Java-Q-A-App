@@ -13,12 +13,14 @@ public class Answer extends Text {
     private String questionid;
     private String answerid;
 
+    //Default constructor for Answer
     public Answer(String questionid, String text, String author) {
         super(text, author);
         this.answerid = UUID.randomUUID().toString();
         this.questionid = questionid;
     }
-
+    
+    //Default constructor for Answer when reading from Database   
     public Answer(String answerid, String questionid, String text, String author) {
         super(text, author);
         this.questionid = questionid;

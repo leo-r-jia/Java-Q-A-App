@@ -17,4 +17,6 @@ public class LoginData {
     boolean deleteAccDone = false;
     boolean isAdmin = false;
     String username = "";
+    String userid = "";
+    String password = "";
 }

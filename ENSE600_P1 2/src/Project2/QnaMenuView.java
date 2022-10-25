@@ -12,6 +12,7 @@ public class QnaMenuView extends javax.swing.JFrame {
 
     public Model model;
 
+    //Constructor for Qna Menu
     public QnaMenuView(Model model) {
         initComponents();
         this.model = model;
@@ -23,6 +24,7 @@ public class QnaMenuView extends javax.swing.JFrame {
         setup();
     }
 
+    //Setup GUI
     private void setup() {
         loadQuestions("All");
 
@@ -42,6 +44,7 @@ public class QnaMenuView extends javax.swing.JFrame {
         topicSelector.add("Other");
     }
 
+    //Print questions onto GUI, sorted by topic
     private void loadQuestions(String topic) {
         questionList.clear();
         if (topic.contentEquals("All")) {
@@ -55,9 +58,9 @@ public class QnaMenuView extends javax.swing.JFrame {
                 }
             }
         }
-
     }
 
+    //Print unanswered questions onto GUI, sorted by topic
     private void loadUnansweredQuestions(String topic) {
         questionList.clear();
         if (topic.contentEquals("All")) {
@@ -91,6 +94,7 @@ public class QnaMenuView extends javax.swing.JFrame {
         filterButton = new java.awt.Button();
         jMenuBar1 = new javax.swing.JMenuBar();
         mainMenu = new javax.swing.JMenu();
+        profile = new javax.swing.JMenu();
         logOut = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -147,6 +151,14 @@ public class QnaMenuView extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(mainMenu);
+
+        profile.setText("Profile");
+        profile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(profile);
 
         logOut.setText("Logout");
         logOut.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -223,25 +235,31 @@ public class QnaMenuView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Main menu button clicked
     private void mainMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMenuMouseClicked
         //Refresh page
         questionField.setText("Ask your question here");
     }//GEN-LAST:event_mainMenuMouseClicked
 
+    //Question field clicked
     private void questionFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_questionFieldMouseClicked
+        //Clear default text
         if (questionField.getText().contains("Ask your question here")) {
             questionField.setText("");
         }
     }//GEN-LAST:event_questionFieldMouseClicked
 
+    //Ask question button pressed
     private void askQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_askQuestionActionPerformed
+        //Check for invalid questions
         if (questionField.getText().isEmpty() || questionField.getText().contains("Ask your question here")) {
             String msg = "Invalid question.";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
-        } else if (questionField.getText().length() > 119) {
+        } //Check for lengthy question
+        else if (questionField.getText().length() > 119) {
             String msg = "Your question exceeds maximum allowed characters (120)";
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
-        } else {
+        } else { //Create new question, update QuestionData and write to DB
             String question = questionField.getText();
             String topic = (String) topicSelector.getSelectedItem();
             model.newQuestion(question, topic);
@@ -250,6 +268,7 @@ public class QnaMenuView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_askQuestionActionPerformed
 
+    //If question pressed, load question view
     private void questionListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_questionListMouseClicked
         String questionText = questionList.getSelectedItem();
         Question selectedQuestion = null;
@@ -258,10 +277,13 @@ public class QnaMenuView extends javax.swing.JFrame {
                 selectedQuestion = q;
             }
         }
-        this.dispose();
-        QnaQuestionView qv = new QnaQuestionView(this.model, selectedQuestion);
+        if (selectedQuestion != null) {
+            this.dispose();
+            QnaQuestionView qv = new QnaQuestionView(this.model, selectedQuestion);
+        }
     }//GEN-LAST:event_questionListMouseClicked
 
+    //Filter button pressed
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
         if (unansweredQuestionsFilter.isSelected()) {
             loadUnansweredQuestions((String) topicFilter.getSelectedItem());
@@ -270,6 +292,7 @@ public class QnaMenuView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_filterButtonActionPerformed
 
+    //Log out button clicked
     private void logOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutMouseClicked
         String msg = "Are you sure you want to log out? ";
         int result = JOptionPane.showConfirmDialog(null, msg, "Confirm Log Out", HEIGHT);
@@ -279,6 +302,11 @@ public class QnaMenuView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logOutMouseClicked
 
+    private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
+        this.dispose();
+        new QnaProfileView(model);
+    }//GEN-LAST:event_profileMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button askQuestion;
@@ -287,6 +315,7 @@ public class QnaMenuView extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu logOut;
     private javax.swing.JMenu mainMenu;
+    private javax.swing.JMenu profile;
     private javax.swing.JTextField questionField;
     private java.awt.List questionList;
     private javax.swing.JLabel questionListLabel;

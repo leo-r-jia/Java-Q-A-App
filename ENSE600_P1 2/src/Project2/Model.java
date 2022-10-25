@@ -33,6 +33,8 @@ public class Model extends Observable {
     //Compare userID and password with that inside db.
     public void loginAcc(String userID, String password) {
         this.loginData = this.db.loginAcc(userID, password);
+        loginData.userid = userID;
+        loginData.password = password;
         this.setChanged();
         this.notifyObservers(this.loginData);
     }
@@ -40,7 +42,8 @@ public class Model extends Observable {
     //generate a new account and write back to db
     public void createNewAcc(String userID, String userName, String password) {
         this.db.createNewAccount(userID, password, userName);
-
+        loginData.userid = userID;
+        loginData.password = password;
         this.setChanged();
         this.notifyObservers(this.loginData);
     }
@@ -48,6 +51,7 @@ public class Model extends Observable {
     //add the new password back to db
     public void resetPassword(String userID, String newPassword) {
         this.db.resetPassword(userID, newPassword);
+        loginData.password = newPassword;
         this.setChanged();
         this.notifyObservers(this.loginData);
     }
