@@ -37,6 +37,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
     }
 
     private void populateAnswerList() {
+        answerList.removeAll();
         for (Answer a : q.answers) {
             answerList.add(a.toString());
         }
@@ -189,15 +190,32 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
         } else {
             String answer = answerField.getText();
-            model.newAnswer(q.getqId(), answer);
-            answerList.add(answer + " (" + model.loginData.username + ")");
             answerField.setText("");
+            model.newAnswer(q.getqId(), answer);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            initialisePage();
         }
     }//GEN-LAST:event_addAnswerActionPerformed
 
     private void deleteSelectedAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteSelectedAnswerActionPerformed
         String selected = this.answerList.getSelectedItem();
-        System.out.println(selected);
+        Answer answer = null;
+        for (Answer a : q.answers) {
+            if (a.toString().equals(selected)) {
+                answer = a;
+            }
+        }
+        String msg = "Are you sure you want to delete the question "
+                + q.getText() + " by " + q.getAuthor() + "?";
+        int result = JOptionPane.showConfirmDialog(null, msg, "Confirm Delete", HEIGHT);
+        if (result == JOptionPane.YES_OPTION) {
+            this.model.deleteAnswer(answer);
+            answerList.remove(selected);
+        }
     }//GEN-LAST:event_deleteSelectedAnswerActionPerformed
 
     private void deleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteQuestionActionPerformed
@@ -208,8 +226,8 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
             msg = q.getText() + " by " + q.getAuthor() + " deleted successfully.";
             JOptionPane.showMessageDialog(null, msg, "Question Deleted", HEIGHT);
             this.model.deleteQuestion(q);
-            QnaAdminMenuView qm = new QnaAdminMenuView(this.model);
             this.dispose();
+            new QnaAdminMenuView(model);
         }
     }//GEN-LAST:event_deleteQuestionActionPerformed
 

@@ -96,7 +96,7 @@ public class Model extends Observable {
 
     //delete answer in db, and reinitialise questionData
     public void deleteAnswer(Answer a) {
-        db.deleteQuestion(a.getAnswerid().replace("'", "''"));
+        db.deleteAnswer(a.getAnswerid().replace("'", "''"));
         initialiseQuestionData();
     }
 }

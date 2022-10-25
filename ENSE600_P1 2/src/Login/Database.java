@@ -92,7 +92,6 @@ public class Database {
                 //if not admin, change the value of isAdmin as false
                 if (rs.getInt(4) == 1) {
                     data.isAdmin = true;
-                    JOptionPane.showMessageDialog(null, "Kia ora Admin!");
                 } else {
                     data.isAdmin = false;
                 }
