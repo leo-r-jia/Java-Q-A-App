@@ -33,7 +33,6 @@ public class Database {
             conn = DriverManager.getConnection(url, dbusername, dbpassword);
             myStatObj = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             tableName = "UserInfo";
-
             if (!checkTableExisting(tableName)) {
                 myStatObj.executeLargeUpdate("CREATE TABLE " + tableName + " (userid VARCHAR(30), username VARCHAR(30), password VARCHAR(12), isAdmin INT)");
             }
@@ -227,7 +226,6 @@ public class Database {
                 + answer.getAnswerid().replace("'", "''") + "', '"
                 + answer.getQuestionid() + "', '" + answer.getText() + "', '"
                 + answer.getAuthor() + "')";
-        System.out.println(statement);
         try {
             myStatObj.execute(statement);
         } catch (Throwable e) {
@@ -238,8 +236,10 @@ public class Database {
     public void deleteQuestion(String questionId) {
         String statement = "DELETE FROM Questions WHERE questionid = '"
                 + questionId + "'";
-        System.out.println(statement);
         try {
+            myStatObj.execute(statement);
+            statement = "DELETE FROM Answers WHERE questionid = '"
+                    + questionId + "'";
             myStatObj.execute(statement);
         } catch (Throwable e) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);

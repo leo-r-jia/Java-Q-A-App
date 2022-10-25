@@ -8,10 +8,10 @@ import javax.swing.JOptionPane;
  * @author Leo
  */
 public class QnaQuestionView extends javax.swing.JFrame {
-
+    
     public Model model;
     public Question q;
-
+    
     public QnaQuestionView(Model model, Question q) {
         initComponents();
         this.q = q;
@@ -23,24 +23,23 @@ public class QnaQuestionView extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         initialisePage();
     }
-
+    
     private void initialisePage() {
         questionLabel.setText("<html><p style=\"width:420px\">" + q.toString() + "</p></html>");
-
+        
         if (q.answers.isEmpty()) {
             answerField.setText("Be the first to answer");
         }
         topicLabel.setText(q.getTopic() + " Question");
         populateAnswerList();
     }
-
+    
     private void populateAnswerList() {
-        answerList.removeAll();
         for (Answer a : q.answers) {
             answerList.add(a.toString());
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -160,13 +159,8 @@ public class QnaQuestionView extends javax.swing.JFrame {
         } else {
             String answer = answerField.getText();
             model.newAnswer(q.getqId(), answer);
+            answerList.add(answer + " (" + model.loginData.username + ")");
             answerField.setText("");
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            populateAnswerList();
         }
     }//GEN-LAST:event_addAnswerActionPerformed
 

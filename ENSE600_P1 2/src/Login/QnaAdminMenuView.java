@@ -240,6 +240,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
             String topic = (String) topicSelector.getSelectedItem();
             model.newQuestion(question, topic);
             loadQuestions((String) topicFilter.getSelectedItem());
+            questionField.setText("");
         }
     }//GEN-LAST:event_askQuestionActionPerformed
 

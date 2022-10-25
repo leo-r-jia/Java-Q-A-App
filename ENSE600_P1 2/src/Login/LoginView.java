@@ -149,6 +149,7 @@ public class LoginView extends JFrame implements Observer {
         resetPasswordPanel.add(resetPassword);
         resetPasswordPanel.add(newInputPassword);
         resetPasswordPanel.add(submitButton);
+        resetPasswordPanel.add(quitButton);
 
         this.getContentPane().removeAll();
         resetPasswordPanel.setVisible(true);

@@ -37,7 +37,6 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
     }
 
     private void populateAnswerList() {
-        answerList.removeAll();
         for (Answer a : q.answers) {
             answerList.add(a.toString());
         }
@@ -191,7 +190,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         } else {
             String answer = answerField.getText();
             model.newAnswer(q.getqId(), answer);
-            populateAnswerList();
+            answerList.add(answer + " (" + model.loginData.username + ")");
             answerField.setText("");
         }
     }//GEN-LAST:event_addAnswerActionPerformed
