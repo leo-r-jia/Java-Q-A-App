@@ -10,58 +10,55 @@ import javax.swing.JOptionPane;
  * @author Leo
  */
 public class QnaQuestionAdminView extends javax.swing.JFrame {
-    
+
     public Model model;
     public Question q;
-    
+
     public QnaQuestionAdminView(Model model, Question q) {
         initComponents();
         this.q = q;
         this.model = model;
-        this.setTitle("ENSE600/COMP603 Q&A APP - View Question by " + q.getAuthor() + " As Admin");
+        this.setTitle("ENSE600/COMP603 Q&A APP - View Question by " + q.getAuthor() + " as Admin");
         this.setResizable(false);
         this.setVisible(true);
         this.pack();
         this.setLocationRelativeTo(null);
         initialisePage();
-        populateAnswerList();
     }
-    
+
     private void initialisePage() {
         questionLabel.setText("<html><p style=\"width:420px\">" + q.toString() + "</p></html>");
-        
+
         if (q.answers.isEmpty()) {
             answerField.setText("Be the first to answer");
         }
+        topicLabel.setText(q.getTopic() + " Question");
+        populateAnswerList();
     }
-    
+
     private void populateAnswerList() {
         for (Answer a : q.answers) {
             answerList.add(a.toString());
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         answerField = new javax.swing.JTextField();
         addAnswer = new java.awt.Button();
         answerList = new java.awt.List();
-        questionListLabel = new javax.swing.JLabel();
         answerBoxLabel = new javax.swing.JLabel();
         questionLabel = new javax.swing.JLabel();
         deleteSelectedAnswer = new java.awt.Button();
         deleteQuestion = new java.awt.Button();
+        topicLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mainMenu = new javax.swing.JMenu();
         logOut = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("ENSE600/COMP603 Q&A APP");
 
         answerField.setText("Add an answer");
         answerField.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -80,9 +77,6 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         });
 
         answerList.setMaximumSize(new java.awt.Dimension(40, 80));
-
-        questionListLabel.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        questionListLabel.setText("Question");
 
         answerBoxLabel.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         answerBoxLabel.setText("Answers");
@@ -105,6 +99,10 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
             }
         });
 
+        topicLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        topicLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        topicLabel.setText("Topic");
+
         mainMenu.setText("Main Menu");
         mainMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -123,20 +121,17 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(195, 195, 195)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(26, 26, 26)
-                            .addComponent(deleteSelectedAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(83, 83, 83)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(deleteQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(deleteSelectedAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(topicLabel)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(questionListLabel)
                                 .addComponent(answerList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(answerBoxLabel)
                                 .addComponent(questionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -149,13 +144,11 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel1)
-                .addGap(21, 21, 21)
-                .addComponent(questionListLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(42, 42, 42)
+                .addComponent(topicLabel)
+                .addGap(18, 18, 18)
                 .addComponent(questionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(answerBoxLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,11 +220,10 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
     private java.awt.List answerList;
     private java.awt.Button deleteQuestion;
     private java.awt.Button deleteSelectedAnswer;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu logOut;
     private javax.swing.JMenu mainMenu;
     private javax.swing.JLabel questionLabel;
-    private javax.swing.JLabel questionListLabel;
+    private javax.swing.JLabel topicLabel;
     // End of variables declaration//GEN-END:variables
 }
