@@ -73,4 +73,13 @@ public class Model extends Observable {
         qnaDb.insertAnswer(newAnswer);
         initialiseQuestionData();
     }
+
+    public void deleteQuestion(Question q) {
+        qnaDb.deleteQuestion(q.getqId().replace("'", "''"));
+        initialiseQuestionData();
+    }
+
+    public void deleteAnswer(Answer a) {
+        qnaDb.deleteQuestion(a.getAnswerid().replace("'", "''"));
+    }
 }

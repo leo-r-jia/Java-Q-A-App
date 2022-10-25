@@ -194,7 +194,8 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
     }//GEN-LAST:event_addAnswerActionPerformed
 
     private void deleteSelectedAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteSelectedAnswerActionPerformed
-
+        String selected = this.answerList.getSelectedItem();
+        System.out.println(selected);
     }//GEN-LAST:event_deleteSelectedAnswerActionPerformed
 
     private void deleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteQuestionActionPerformed
@@ -204,9 +205,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         if (result == JOptionPane.YES_OPTION) {
             msg = q.getText() + " by " + q.getAuthor() + " deleted successfully.";
             JOptionPane.showMessageDialog(null, msg, "Question Deleted", HEIGHT);
-            this.model.qnaDb.deleteQuestion(q);
-            this.model.qnaDb.initialiseQuestions(this.model.questionData);
-            this.model.qnaDb.initialiseAnswers(this.model.questionData);
+            this.model.deleteQuestion(q);
             QnaAdminMenuView qm = new QnaAdminMenuView(this.model);
             this.dispose();
         }

@@ -158,7 +158,7 @@ public class QnaQuestionView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, msg, "Error", HEIGHT);
         } else {
             String answer = answerField.getText();
-            populateAnswerList();
+            //addAnswer code
         }
     }//GEN-LAST:event_addAnswerActionPerformed
 

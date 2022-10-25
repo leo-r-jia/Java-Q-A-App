@@ -36,11 +36,10 @@ public class QnaDatabase {
                         + "username VARCHAR(30), topic VARCHAR(30))");
             }
             tableName = "Answers";
-
             if (!checkTableExisting(tableName)) {
                 myStatObj.executeUpdate("CREATE TABLE " + tableName
-                        + " (questionid VARCHAR(38), answer VARCHAR(120), "
-                        + "username VARCHAR(30))");
+                        + " (answerid VARCHAR(38), questionid VARCHAR(38), "
+                        + "answer VARCHAR(120), username VARCHAR(30))");
             }
         } catch (Throwable e) {
             Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
@@ -106,9 +105,19 @@ public class QnaDatabase {
         }
     }
 
-    public void deleteQuestion(Question question) {
+    public void deleteQuestion(String questionId) {
         String statement = "DELETE FROM Questions WHERE questionid = '"
-                + question.getqId().replace("'", "''") + "'";
+                + questionId + "'";
+        System.out.println(statement);
+        try {
+            myStatObj.execute(statement);
+        } catch (Throwable e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public void deleteAnswer(String answerid) {
+        String statement = "DELETE FROM Answers WHERE answerid = '" + answerid + "'";
         System.out.println(statement);
         try {
             myStatObj.execute(statement);
@@ -138,10 +147,11 @@ public class QnaDatabase {
         try {
             myResObj = myStatObj.executeQuery("SELECT * FROM Answers");
             while (myResObj.next()) {
+                String answerid = myResObj.getString("answerid").replace("''", "'");
                 String questionid = myResObj.getString("questionid").replace("''", "'");
                 String answer = myResObj.getString("answer").replace("''", "'");
                 String author = myResObj.getString("username");
-                Answer a = new Answer(questionid, answer, author);
+                Answer a = new Answer(answerid, questionid, answer, author);
                 qd.questions.get(questionid).answers.add(a);
             }
         } catch (SQLException e) {
