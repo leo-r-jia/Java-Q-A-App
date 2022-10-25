@@ -81,5 +81,6 @@ public class Model extends Observable {
 
     public void deleteAnswer(Answer a) {
         qnaDb.deleteQuestion(a.getAnswerid().replace("'", "''"));
+        initialiseQuestionData();
     }
 }

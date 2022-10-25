@@ -94,8 +94,8 @@ public class QnaDatabase {
 
     public void insertAnswer(Answer answer) {
         String statement = "INSERT INTO Answers VALUES ('"
-                + answer.getQuestionid()
-                + "', '" + answer.getText() + "', '"
+                + answer.getAnswerid().replace("'", "''") + "', '" 
+                + answer.getQuestionid() + "', '" + answer.getText() + "', '"
                 + answer.getAuthor() + "')";
         System.out.println(statement);
         try {
