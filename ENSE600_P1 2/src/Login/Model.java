@@ -17,7 +17,7 @@ public class Model extends Observable {
     public LoginDatabase db;
 
     public QuestionData questionData;
-    public Data data = new Data();
+    public LoginData data = new LoginData();
 
     public String userID;
     public String username;

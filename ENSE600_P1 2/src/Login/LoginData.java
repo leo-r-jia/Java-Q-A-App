@@ -5,7 +5,7 @@ package Login;
  * @author Katie LI
  * @Student ID:18003055
  */
-public class Data {
+public class LoginData {
 
     //initialize the instance variables
     boolean loginFlag = false;

@@ -253,7 +253,7 @@ public class LoginView extends JFrame implements Observer {
     //Define the event when model has been modified.
     @Override
     public void update(Observable o, Object arg) {
-        Data data = (Data) arg;
+        LoginData data = (LoginData) arg;
         welcomMessage = new JLabel("Kia ora, " + data.username + "! You have logged in successfully.");
         goodbye = new JLabel("Goodbye, " + data.username + "! See you next time!");
         if (!data.hasAnAccount) {//if the user has an account, to the login window

@@ -12,30 +12,45 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Katie LI
- * @Student ID:18003055
+ * @author Katie LI and Leo JIA
+ * @Student ID:18003055 and 20115737
  */
-public class LoginDatabase {
+public class Database {
 
-    Connection conn = null;
-    String url = "jdbc:derby:UserDB;create=true";
+    private Connection conn = null;
+    private static final String url = "jdbc:derby:AppDatabase;create=true";
 
-    String dbusername = "pdc";
-    String dbpassword = "pdc";
+    private static final String dbusername = "pdc"; 
+    private static final String dbpassword = "pdc";  
 
-    //the method for initializing the connection between the program and the database.
-    public void dbsetup() {
+    private Statement myStatObj = null;
+    private ResultSet myResObj = null;
+
+    public void setup() {
+        String tableName;
         try {
             conn = DriverManager.getConnection(url, dbusername, dbpassword);
-            Statement statement = conn.createStatement();
-            String tableName = "UserInfo";
+            myStatObj = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            tableName = "UserInfo";
 
             if (!checkTableExisting(tableName)) {
-                statement.executeLargeUpdate("CREATE TABLE " + tableName + " (userid VARCHAR(30), username VARCHAR(30), password VARCHAR(12), isAdmin INT)");
+                myStatObj.executeLargeUpdate("CREATE TABLE " + tableName + " (userid VARCHAR(30), username VARCHAR(30), password VARCHAR(12), isAdmin INT)");
             }
-            statement.close();
+            tableName = "Questions";
+            if (!checkTableExisting(tableName)) {
+                myStatObj.executeUpdate("CREATE TABLE " + tableName + " "
+                        + "(questionid VARCHAR(38), question VARCHAR(120), "
+                        + "username VARCHAR(30), topic VARCHAR(30))");
+            }
+            tableName = "Answers";
+            if (!checkTableExisting(tableName)) {
+                myStatObj.executeUpdate("CREATE TABLE " + tableName
+                        + " (answerid VARCHAR(38), questionid VARCHAR(38), "
+                        + "answer VARCHAR(120), username VARCHAR(30))");
+            }
         } catch (Throwable e) {
-            System.out.println("Error");
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            System.out.println("Setup error");
         }
     }
 
@@ -46,11 +61,10 @@ public class LoginDatabase {
             String[] types = {"TABLE"};
             DatabaseMetaData dbmd = conn.getMetaData();
             ResultSet rsDBMeta = dbmd.getTables(null, null, null, null);//types);
-            //Statement dropStatement=null;
             while (rsDBMeta.next()) {
                 String tableName = rsDBMeta.getString("TABLE_NAME");
                 if (tableName.compareToIgnoreCase(newTableName) == 0) {
-                    System.out.println(tableName + "  is there");
+                    System.out.println(tableName + " is there");
                     flag = true;
                 }
             }
@@ -58,6 +72,7 @@ public class LoginDatabase {
                 rsDBMeta.close();
             }
         } catch (SQLException ex) {
+            Logger.getLogger(LoginDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return flag;
     }
@@ -66,9 +81,8 @@ public class LoginDatabase {
     public LoginData loginAcc(String userID, String password) {
         LoginData data = new LoginData();
         try {
-            Statement statement = conn.createStatement();
             String sql = "SELECT userid, username, password,isAdmin FROM UserInfo WHERE userid = '" + userID + "'and password= '" + password + "'";
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = myStatObj.executeQuery(sql);
             int count = 0;
             //check if the user exist, initilized the username back to Data; 
             while (rs.next()) {
@@ -107,9 +121,8 @@ public class LoginDatabase {
         LoginData data = new LoginData();
 
         try {
-            Statement statement = conn.createStatement();
             String checkIfAccExist = "SELECT userID from UserInfo WHERE userID ='" + userID + "'";
-            ResultSet rs = statement.executeQuery(checkIfAccExist);
+            ResultSet rs = myStatObj.executeQuery(checkIfAccExist);
             //check if the user account exist or not, and change the value of accountExist back to Data
             if (rs.next()) {
                 data.accountExist = true;
@@ -134,9 +147,8 @@ public class LoginDatabase {
             } else {
                 //collect the information from user input and write them back to db
                 //and change the value of createNewAccDone back to Data
-                Statement statement = conn.createStatement();
                 String sql = "INSERT INTO UserInfo (userID, userName, password,isAdmin) VALUES('" + userID + "','" + userName + "','" + password + "',0)";
-                statement.execute(sql);
+                myStatObj.execute(sql);
                 data.createNewAccDone = true;
                 //a message to remind the user the new account has been created successfully
                 JOptionPane.showMessageDialog(null, "You new Account has been created!");
@@ -157,9 +169,8 @@ public class LoginDatabase {
             data = checkAccountExist(userID);
             if (data.accountExist) {
                 //when the input account exist, update the new password to the db and change the value of resetPasswordDone back to Data
-                Statement statement = conn.createStatement();
                 String sql = "UPDATE USERINFO SET PASSWORD = '" + newPassword + "'WHERE USERID= '" + userID + "'";
-                statement.execute(sql);
+                myStatObj.execute(sql);
                 data.resetPasswordDone = true;
                 JOptionPane.showMessageDialog(null, "You new password has reseted!");
             } else {
@@ -182,9 +193,8 @@ public class LoginDatabase {
             data = checkAccountExist(userID);
             if (data.accountExist) {
                 //when the input accout exist, delete it from db
-                Statement statement = conn.createStatement();
                 String sql = "DELETE FROM USERINFO WHERE USERID='" + userID + "'";
-                statement.execute(sql);
+                myStatObj.execute(sql);
                 data.deleteAccDone = true;
                 JOptionPane.showMessageDialog(null, "Account deleted successfully!");
             } else {
@@ -197,15 +207,94 @@ public class LoginDatabase {
         return data;
     }
 
+    public void insertQuestion(Question question) {
+        String statement = "INSERT INTO Questions VALUES ('"
+                + question.getqId().replace("'", "''")
+                + "', '" + question.getText()
+                + "', '" + question.getAuthor()
+                + "', '" + question.getTopic() + "')";
+        System.out.println(statement);
+        try {
+            myStatObj.execute(statement);
+        } catch (Throwable e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public void insertAnswer(Answer answer) {
+        String statement = "INSERT INTO Answers VALUES ('"
+                + answer.getAnswerid().replace("'", "''") + "', '"
+                + answer.getQuestionid() + "', '" + answer.getText() + "', '"
+                + answer.getAuthor() + "')";
+        System.out.println(statement);
+        try {
+            myStatObj.execute(statement);
+        } catch (Throwable e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public void deleteQuestion(String questionId) {
+        String statement = "DELETE FROM Questions WHERE questionid = '"
+                + questionId + "'";
+        System.out.println(statement);
+        try {
+            myStatObj.execute(statement);
+        } catch (Throwable e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public void deleteAnswer(String answerid) {
+        String statement = "DELETE FROM Answers WHERE answerid = '" + answerid + "'";
+        System.out.println(statement);
+        try {
+            myStatObj.execute(statement);
+        } catch (Throwable e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public void initialiseQuestions(QuestionData qd) {
+        try {
+            myResObj = myStatObj.executeQuery("SELECT * FROM Questions");
+            while (myResObj.next()) {
+                String questionid = myResObj.getString("questionid").replace("''", "'");
+                String question = myResObj.getString("question").replace("''", "'");;
+                String author = myResObj.getString("username");
+                String topic = myResObj.getString("topic");
+                Question q = new Question(questionid, question, author, topic);
+                qd.questions.put(questionid, q);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            System.err.println("initialiseQuestions SQLException: " + e.getMessage());
+        }
+    }
+
+    public void initialiseAnswers(QuestionData qd) {
+        try {
+            myResObj = myStatObj.executeQuery("SELECT * FROM Answers");
+            while (myResObj.next()) {
+                String answerid = myResObj.getString("answerid").replace("''", "'");
+                String questionid = myResObj.getString("questionid").replace("''", "'");
+                String answer = myResObj.getString("answer").replace("''", "'");
+                String author = myResObj.getString("username");
+                Answer a = new Answer(answerid, questionid, answer, author);
+                qd.questions.get(questionid).answers.add(a);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(QnaDatabase.class.getName()).log(Level.SEVERE, null, e);
+            System.err.println("initialiseQuestions SQLException: " + e.getMessage());
+        }
+    }
+
     // a method to close the db 
     public void quitSystem() {
-        Statement statement;
         try {
-            statement = conn.createStatement();
-            statement.close();
-
+            myStatObj.close();
         } catch (SQLException ex) {
-            System.out.println(ex);
+            Logger.getLogger(LoginDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
