@@ -8,12 +8,13 @@ import java.util.Observable;
 
 /**
  *
- * @author Katie and Leo
+ * @author Katie LI and Leo JIA
+ * @Student ID:18003055 and 20115737
  */
 public class Model extends Observable {
 
     public QnaDatabase qnaDb;
-    public LoginDatabase loginDb;
+    public LoginDatabase db;
 
     public QuestionData questionData;
     public Data data = new Data();
@@ -22,8 +23,8 @@ public class Model extends Observable {
     public String username;
 
     public Model() {
-        this.loginDb = new LoginDatabase();
-        this.loginDb.dbsetup();
+        this.db = new LoginDatabase();
+        this.db.dbsetup();
 
         this.qnaDb = new QnaDatabase();
         this.qnaDb.setup();
@@ -37,23 +38,43 @@ public class Model extends Observable {
         qnaDb.initialiseAnswers(questionData);
     }
 
-    public void checkName(String userID, String password) {
+    //Compare userID and password with that inside db.
+    public void loginAcc(String userID, String password) {
         this.userID = userID;
-        this.data = this.loginDb.checkName(userID, password);
-
+        this.data = this.db.loginAcc(userID, password);
         this.setChanged();
         this.notifyObservers(this.data);
     }
 
+    //generate a new account and write back to db
     public void createNewAcc(String userID, String userName, String password) {
         this.userID = userID;
-        this.loginDb.createNewAccount(userID, password, userName);
+        this.db.createNewAccount(userID, password, userName);
+
         this.setChanged();
         this.notifyObservers(this.data);
     }
 
+    //add the new password back to db
+    public void resetPassword(String userID, String newPassword) {
+        this.userID = userID;
+        this.db.resetPassword(userID, newPassword);
+        this.setChanged();
+        this.notifyObservers(this.data);
+    }
+
+    //delete the information which matching with the userID in db
+    public void deleteAcc(String userID) {
+        this.userID = userID;
+        this.db.deleteAcc(userID);
+        this.setChanged();
+        this.notifyObservers(this.data);
+
+    }
+
+    //update data in db
     public void quitSystem() {
-        this.loginDb.quitSystem();
+        this.db.quitSystem();
         this.data.quitFlag = true;
         this.setChanged();
         this.notifyObservers(this.data);
