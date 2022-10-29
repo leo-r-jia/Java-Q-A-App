@@ -136,19 +136,5 @@ public class QnaAppTest {
 //    /**
 //     * Test of quitSystem method, of class LoginDatabase.
 //     */
-    @Test
-    public void testQuitSystem() {
-        System.out.println("quitSystem");
-        String url = "jdbc:derby:UserDB;create=true";
-        String dbusername = "pdc";
-        String dbpassword = "pdc";
-        Database instance = new Database();
-        try {
-            instance.conn = DriverManager.getConnection(url, dbusername, dbpassword);
-        } catch (SQLException ex) {
-            Logger.getLogger(QnaAppTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        instance.quitSystem();
-    }
 //    
 }

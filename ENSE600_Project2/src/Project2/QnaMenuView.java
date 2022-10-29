@@ -116,7 +116,7 @@ public class QnaMenuView extends javax.swing.JFrame {
 
         askQuestion.setActionCommand("askQuestion");
         askQuestion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        askQuestion.setLabel("Ask Question");
+        askQuestion.setLabel("Ask");
         askQuestion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 askQuestionActionPerformed(evt);
