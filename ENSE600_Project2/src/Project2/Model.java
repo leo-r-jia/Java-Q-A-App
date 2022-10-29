@@ -63,14 +63,6 @@ public class Model extends Observable {
         this.notifyObservers(this.loginData);
     }
 
-    //update data in db
-    public void quitSystem() {
-        this.db.quitSystem();
-        this.loginData.quitFlag = true;
-        this.setChanged();
-        this.notifyObservers(this.loginData);
-    }
-
     //insert new question in db, and reinitialise questionData
     public void newQuestion(String question, String topic) {
         question = question.replace("'", "''");

@@ -57,14 +57,12 @@ public class Database {
     private boolean checkTableExisting(String newTableName) {
         boolean flag = false;
         try {
-            System.out.println("Checking existing tables...");
             String[] types = {"TABLE"};
             DatabaseMetaData dbmd = conn.getMetaData();
             ResultSet rsDBMeta = dbmd.getTables(null, null, null, null);//types);
             while (rsDBMeta.next()) {
                 String tableName = rsDBMeta.getString("TABLE_NAME");
                 if (tableName.compareToIgnoreCase(newTableName) == 0) {
-                    System.out.println(tableName + " is there");
                     flag = true;
                 }
             }
@@ -268,7 +266,6 @@ public class Database {
             }
         } catch (SQLException e) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
-            System.err.println("initialiseQuestions SQLException: " + e.getMessage());
         }
     }
 
@@ -285,16 +282,6 @@ public class Database {
             }
         } catch (SQLException e) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
-            System.err.println("initialiseQuestions SQLException: " + e.getMessage());
-        }
-    }
-
-    // a method to close the db 
-    public void quitSystem() {
-        try {
-            myStatObj.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
