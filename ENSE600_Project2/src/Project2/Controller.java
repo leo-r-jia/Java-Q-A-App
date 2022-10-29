@@ -74,15 +74,6 @@ public class Controller implements ActionListener {
                 this.model.resetPassword(inputID, newPassword);
                 break;
 
-            case "Delete an account":
-                this.view.deleteAcc();
-                break;
-
-            case "Delete":
-                String deleteID = this.view.inputUserID.getText().trim();
-                this.model.deleteAcc(deleteID);
-                break;
-
             case "Back":
                 this.view.goBacktoMenu();
 

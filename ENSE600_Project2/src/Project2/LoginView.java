@@ -22,36 +22,22 @@ public class LoginView extends JFrame implements Observer {
     // initilizing the GUI instance of variables
     private JPanel userPanel1 = new JPanel();
     private JPanel userPanel2 = new JPanel();
-    private JPanel loginPanel1 = new JPanel();
-    private JPanel loginPanel2 = new JPanel();
-    private JPanel createAccPanel1 = new JPanel();
-    private JPanel createAccPanel2 = new JPanel();
-    private JPanel resetPasswordPanel = new JPanel();
-    private JPanel loginAsAdminPanel1 = new JPanel();
-    private JPanel loginAsAdminPanel2 = new JPanel();
-    private JPanel deleteAccPanel = new JPanel();
-
-    private JPanel QAMenu1 = new JPanel();
-    private JPanel QAMenu2 = new JPanel();
-
     public JLabel queryMessage = new JLabel("Have you already got an account?", JLabel.CENTER);
     private JLabel yes = new JLabel("Yes, I want to log in with my account.");
     private JButton yesButton = new JButton("Log in Now");
     private JLabel no = new JLabel("No, I want to create a new account.");
     private JButton noButton = new JButton("Create New Account");
 
-    private JPanel quitPanel = new JPanel();
-    private JButton quitButton = new JButton("Quit");
-    private JLabel goodbye = new JLabel("Goodbye! See you next time!");
-
-    private JButton backButton = new JButton("Back");
-
+    private JPanel loginPanel1 = new JPanel();
+    private JPanel loginPanel2 = new JPanel();
     private JLabel uID = new JLabel("User ID: ");
     private JLabel pWord = new JLabel("Password: ");
     public JTextField uidInput = new JTextField(10);
     public JTextField pwInput = new JTextField(10);
     private JButton loginButton = new JButton("Log in");
 
+    private JPanel createAccPanel1 = new JPanel();
+    private JPanel createAccPanel2 = new JPanel();
     private JLabel inputId = new JLabel("Please input a user ID: ");
     private JLabel inputName = new JLabel("Please input your name: ");
     private JLabel inputPassword = new JLabel("Please input your password: ");
@@ -62,6 +48,8 @@ public class LoginView extends JFrame implements Observer {
     private JButton registerButton = new JButton("Register");
     private JLabel remindMsgForNewAcc = new JLabel("As the user ID,user name and password are sensitive, please do not include special characters(for example: ',_.~!) when you create new account.");
 
+    private JPanel resetPasswordPanel = new JPanel();
+    private JPanel loginAsAdminPanel1 = new JPanel();
     private JLabel IDquery = new JLabel("Please input your user ID:");
     public JTextField inputUserID = new JTextField(10);
     private JLabel resetPassword = new JLabel("Please input your new password:");
@@ -69,15 +57,17 @@ public class LoginView extends JFrame implements Observer {
     private JButton resetPasswordButton = new JButton("Reset Password");
     private JButton submitButton = new JButton("Submit");
 
-    private JButton deleteAccButton = new JButton("Delete an account");
-    private JButton deleteButton = new JButton("Delete");
+    private JPanel quitPanel = new JPanel();
+    private JButton quitButton = new JButton("Quit");
+    private JLabel goodbye = new JLabel("Goodbye! See you next time!");
+
+    private JButton backButton = new JButton("Back");
 
     protected Model m;
 
     //The constructor initializes the frame window as well as the login interface.
     public LoginView() {
-        super("-------------Welcome to ENSE600/COMP603 Q & A App-------------");
-
+        super("-----------------------------Welcome to ENSE600/COMP603 Q & A App-----------------------------");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1200, 200);
         this.setResizable(false);
@@ -95,7 +85,6 @@ public class LoginView extends JFrame implements Observer {
         this.add(userPanel1, BorderLayout.CENTER);
         this.add(userPanel2, BorderLayout.SOUTH);
         this.setVisible(true);
-
     }
 
     public void loginAccount() {
@@ -142,7 +131,6 @@ public class LoginView extends JFrame implements Observer {
         this.add(createAccPanel2, BorderLayout.SOUTH);
         this.revalidate();
         this.repaint();
-
     }
 
     public void resetPassword() {
@@ -167,20 +155,6 @@ public class LoginView extends JFrame implements Observer {
         this.dispose();
     }
 
-    public void deleteAcc() {
-        deleteAccPanel.add(IDquery);
-        deleteAccPanel.add(inputUserID);
-        deleteAccPanel.add(deleteButton);
-        deleteAccPanel.add(quitButton);
-        deleteAccPanel.add(backButton);
-
-        this.getContentPane().removeAll();
-        deleteAccPanel.setVisible(true);
-        this.add(deleteAccPanel, BorderLayout.CENTER);
-        this.revalidate();
-        this.repaint();
-    }
-
     public void printQuestionMenu() {
         new QnaMenuView(m);
         this.dispose();
@@ -196,8 +170,6 @@ public class LoginView extends JFrame implements Observer {
         this.registerButton.addActionListener(listener);
         this.resetPasswordButton.addActionListener(listener);
         this.submitButton.addActionListener(listener);
-        this.deleteAccButton.addActionListener(listener);
-        this.deleteButton.addActionListener(listener);
     }
 
     public void quitSystem() {
