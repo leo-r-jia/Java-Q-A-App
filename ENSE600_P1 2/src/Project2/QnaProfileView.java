@@ -33,7 +33,12 @@ public class QnaProfileView extends javax.swing.JFrame {
                 questionList.add(q.getText());
             }
         }
-        this.usernameTitle.setText(model.loginData.username);
+        if (model.loginData.isAdmin) {
+            this.usernameTitle.setText(model.loginData.username + " (Admin)");
+        } else {
+            this.usernameTitle.setText(model.loginData.username);
+        }
+
         this.userIdLabel.setText("User ID: " + model.loginData.userid);
         this.usernameLabel.setText("Username: " + model.loginData.username);
         this.passwordLabel.setText("Password: " + model.loginData.password);
@@ -155,7 +160,11 @@ public class QnaProfileView extends javax.swing.JFrame {
     //Main menu clicked, go back to main menu
     private void mainMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMenuMouseClicked
         this.dispose();
-        QnaMenuView qm = new QnaMenuView(this.model);
+        if (model.loginData.isAdmin) {
+            new QnaAdminMenuView(this.model);
+        } else {
+            new QnaMenuView(this.model);
+        }
     }//GEN-LAST:event_mainMenuMouseClicked
 
     //Log out button clicked
@@ -173,13 +182,17 @@ public class QnaProfileView extends javax.swing.JFrame {
         String questionText = questionList.getSelectedItem();
         Question selectedQuestion = null;
         for (Question q : model.questionData.questions.values()) {
-            if (q.toString().equals(questionText)) {
+            if (q.getText().equals(questionText)) {
                 selectedQuestion = q;
             }
         }
         if (selectedQuestion != null) {
             this.dispose();
-            QnaQuestionView qv = new QnaQuestionView(this.model, selectedQuestion);
+            if (model.loginData.isAdmin) {
+                new QnaQuestionAdminView(this.model, selectedQuestion);
+            } else {
+                QnaQuestionView qv = new QnaQuestionView(this.model, selectedQuestion);
+            }
         }
     }//GEN-LAST:event_questionListMouseClicked
 
@@ -192,8 +205,8 @@ public class QnaProfileView extends javax.swing.JFrame {
         String msg = "Are you sure you want to delete your account?";
         int result = JOptionPane.showConfirmDialog(null, msg, "Confirm Delete Account", HEIGHT);
         if (result == JOptionPane.YES_OPTION) {
-            this.model.deleteAcc(model.loginData.userid);
             this.dispose();
+            this.model.deleteAcc(model.loginData.userid);
             new App();
         }
     }//GEN-LAST:event_deleteAccountActionPerformed

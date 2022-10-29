@@ -85,7 +85,7 @@ public class Model extends Observable {
         answer = answer.replace("'", "''");
         Answer newAnswer = new Answer(questionid, answer, this.loginData.username);
         db.insertAnswer(newAnswer);
-        initialiseQuestionData();
+        this.questionData.questions.get(newAnswer.getQuestionid()).answers.add(newAnswer);
     }
 
     //delete question in db, and reinitialise questionData
@@ -97,6 +97,6 @@ public class Model extends Observable {
     //delete answer in db, and reinitialise questionData
     public void deleteAnswer(Answer a) {
         db.deleteAnswer(a.getAnswerid().replace("'", "''"));
-        initialiseQuestionData();
+        this.questionData.questions.get(a.getQuestionid()).answers.remove(a);
     }
 }

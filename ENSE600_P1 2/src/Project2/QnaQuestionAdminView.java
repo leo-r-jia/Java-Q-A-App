@@ -213,11 +213,6 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
             String answer = answerField.getText();
             answerField.setText("");
             model.newAnswer(q.getqId(), answer);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
             initialisePage();
         }
     }//GEN-LAST:event_addAnswerActionPerformed
@@ -236,8 +231,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
         int result = JOptionPane.showConfirmDialog(null, msg, "Confirm Delete", HEIGHT);
         if (result == JOptionPane.YES_OPTION) {
             this.model.deleteAnswer(answer);
-            //Remove directly from answerList for instant feedback
-            answerList.remove(selected);
+            initialisePage();
         }
     }//GEN-LAST:event_deleteSelectedAnswerActionPerformed
 

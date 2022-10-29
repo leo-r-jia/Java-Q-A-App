@@ -57,6 +57,7 @@ public class QnaQuestionView extends javax.swing.JFrame {
         questionLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mainMenu = new javax.swing.JMenu();
+        profile = new javax.swing.JMenu();
         logOut = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -97,6 +98,14 @@ public class QnaQuestionView extends javax.swing.JFrame {
         });
         jMenuBar1.add(mainMenu);
 
+        profile.setText("Profile");
+        profile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(profile);
+
         logOut.setText("Logout");
         logOut.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -135,7 +144,7 @@ public class QnaQuestionView extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(answerBoxLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(answerList, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                .addComponent(answerList, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(addAnswer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -176,11 +185,6 @@ public class QnaQuestionView extends javax.swing.JFrame {
             String answer = answerField.getText();
             answerField.setText("");
             model.newAnswer(q.getqId(), answer);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
             initialisePage();
         }
     }//GEN-LAST:event_addAnswerActionPerformed
@@ -195,6 +199,11 @@ public class QnaQuestionView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logOutMouseClicked
 
+    private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
+        this.dispose();
+        new QnaProfileView(model);
+    }//GEN-LAST:event_profileMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button addAnswer;
@@ -204,6 +213,7 @@ public class QnaQuestionView extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu logOut;
     private javax.swing.JMenu mainMenu;
+    private javax.swing.JMenu profile;
     private javax.swing.JLabel questionLabel;
     private javax.swing.JLabel topicLabel;
     // End of variables declaration//GEN-END:variables

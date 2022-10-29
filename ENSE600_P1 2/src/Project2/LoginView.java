@@ -80,6 +80,7 @@ public class LoginView extends JFrame implements Observer {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1200, 200);
+        this.setResizable(false);
 
         this.add(this.queryMessage, BorderLayout.NORTH);
         this.queryMessage.setFont(new Font("Serif", Font.ITALIC, 18));
@@ -103,6 +104,7 @@ public class LoginView extends JFrame implements Observer {
         loginPanel1.add(pWord);
         loginPanel1.add(pwInput);
         loginPanel2.add(loginButton);
+        loginPanel2.add(backButton);
         loginPanel2.add(quitButton);
         this.quitButton.setForeground(Color.red);
         loginPanel2.add(resetPasswordButton);
@@ -116,7 +118,6 @@ public class LoginView extends JFrame implements Observer {
         this.add(loginPanel2, BorderLayout.SOUTH);
         this.revalidate();
         this.repaint();
-
     }
 
     public void createAnAccount() {
@@ -127,6 +128,7 @@ public class LoginView extends JFrame implements Observer {
         createAccPanel1.add(inputPassword);
         createAccPanel1.add(newUserPassword);
         createAccPanel1.add(registerButton);
+        createAccPanel1.add(backButton);
         createAccPanel1.add(quitButton);
         this.quitButton.setForeground(Color.red);
         createAccPanel2.add(remindMsgForNewAcc);
@@ -149,6 +151,8 @@ public class LoginView extends JFrame implements Observer {
         resetPasswordPanel.add(resetPassword);
         resetPasswordPanel.add(newInputPassword);
         resetPasswordPanel.add(submitButton);
+        resetPasswordPanel.add(quitButton);
+        resetPasswordPanel.add(backButton);
         resetPasswordPanel.add(quitButton);
 
         this.getContentPane().removeAll();
@@ -207,9 +211,9 @@ public class LoginView extends JFrame implements Observer {
         this.repaint();
     }
 
-    public void goBackToQAMenu() {
-        this.printQuestionMenu();
-
+    public void goBacktoMenu() {
+        this.dispose();
+        new App();
     }
 
     //Define the event when model has been modified.

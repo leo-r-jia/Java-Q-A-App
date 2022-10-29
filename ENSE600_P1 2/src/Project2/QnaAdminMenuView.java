@@ -95,6 +95,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
         filterButton = new java.awt.Button();
         jMenuBar1 = new javax.swing.JMenuBar();
         mainMenu = new javax.swing.JMenu();
+        profile = new javax.swing.JMenu();
         logOut = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -151,6 +152,14 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(mainMenu);
+
+        profile.setText("Profile");
+        profile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(profile);
 
         logOut.setText("Logout");
         logOut.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -271,7 +280,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
         }
         if (selectedQuestion != null) {
             this.dispose();
-            QnaQuestionView qv = new QnaQuestionView(this.model, selectedQuestion);
+            QnaQuestionAdminView qv = new QnaQuestionAdminView(this.model, selectedQuestion);
         }
     }//GEN-LAST:event_questionListMouseClicked
 
@@ -294,6 +303,11 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logOutMouseClicked
 
+    private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
+        this.dispose();
+        new QnaProfileView(model);
+    }//GEN-LAST:event_profileMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button askQuestion;
@@ -302,6 +316,7 @@ public class QnaAdminMenuView extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu logOut;
     private javax.swing.JMenu mainMenu;
+    private javax.swing.JMenu profile;
     private javax.swing.JTextField questionField;
     private java.awt.List questionList;
     private javax.swing.JLabel questionListLabel;
