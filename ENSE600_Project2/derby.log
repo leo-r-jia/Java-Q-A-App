@@ -1,0 +1,26 @@
+----------------------------------------------------------------
+Sat Oct 29 23:05:34 NZDT 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0184-2334-3379-00001d9027b8 
+on database directory C:\Users\Leo\OneDrive\AUT\ENSE600\COMP603\ENSE600_Project2\UserDB with class loader sun.misc.Launcher$AppClassLoader@1540e19d 
+Loaded from file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_Project2/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_341-b10
+user.dir=C:\Users\Leo\OneDrive\AUT\ENSE600\COMP603\ENSE600_Project2
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Sat Oct 29 23:05:34 NZDT 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 0ddd00a9-0184-2334-3379-00001d9027b8 
+on database directory C:\Users\Leo\OneDrive\AUT\ENSE600\COMP603\ENSE600_Project2\AppDatabase with class loader sun.misc.Launcher$AppClassLoader@1540e19d 
+Loaded from file:/C:/Users/Leo/OneDrive/AUT/ENSE600/COMP603/ENSE600_Project2/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_341-b10
+user.dir=C:\Users\Leo\OneDrive\AUT\ENSE600\COMP603\ENSE600_Project2
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
