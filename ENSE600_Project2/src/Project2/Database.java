@@ -194,9 +194,6 @@ public class Database {
                 myStatObj.execute(sql);
                 data.deleteAccDone = true;
                 JOptionPane.showMessageDialog(null, "Account deleted successfully!");
-            } else {
-                //when the input account doesnot exist, pop a message to remind the user
-                JOptionPane.showMessageDialog(null, "The user ID you want to delete does not EXSIT!");
             }
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,7 +207,6 @@ public class Database {
                 + "', '" + question.getText()
                 + "', '" + question.getAuthor()
                 + "', '" + question.getTopic() + "')";
-        System.out.println(statement);
         try {
             myStatObj.execute(statement);
         } catch (Throwable e) {

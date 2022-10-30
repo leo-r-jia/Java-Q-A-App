@@ -205,8 +205,8 @@ public class QnaProfileView extends javax.swing.JFrame {
         String msg = "Are you sure you want to delete your account?";
         int result = JOptionPane.showConfirmDialog(null, msg, "Confirm Delete Account", HEIGHT);
         if (result == JOptionPane.YES_OPTION) {
-            this.dispose();
             this.model.deleteAcc(model.loginData.userid);
+            this.dispose();
             new App();
         }
     }//GEN-LAST:event_deleteAccountActionPerformed

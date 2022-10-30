@@ -59,8 +59,6 @@ public class Model extends Observable {
     //delete the information which matching with the userID in db
     public void deleteAcc(String userID) {
         this.db.deleteAcc(userID);
-        this.setChanged();
-        this.notifyObservers(this.loginData);
     }
 
     //insert new question in db, and reinitialise questionData

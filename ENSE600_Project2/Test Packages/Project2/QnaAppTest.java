@@ -1,9 +1,5 @@
 package Project2;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -37,7 +33,7 @@ public class QnaAppTest {
     }
 
     /**
-     * Test of setup method, of class Database.
+     * Test of setup method, in class Database.
      */
     @Test
     public void testDbsetup() {
@@ -48,93 +44,64 @@ public class QnaAppTest {
     }
 
     /**
-     * Test of loginAcc method, of class LoginDatabase.
+     * Test of createNewAcc method, in class Model.
      */
-//    @Test
-//    public void testLoginAcc() {
-//        System.out.println("loginAcc");
-//        String userID = "";
-//        String password = "";
-//        LoginDatabase instance = new LoginDatabase();
-//        Data expResult =null;
-//        Data result = instance.loginAcc(userID, password);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        
-//    }
-//
-//    /**
-//     * Test of checkAccountExist method, of class LoginDatabase.
-//     */
-//    @Test
-//    public void testCheckAccountExist() {
-//        System.out.println("checkAccountExist");
-//        String userID = "";
-//        String url = "jdbc:derby:UserDB;create=true";
-//        String dbusername = "pdc";
-//        String dbpassword = "pdc";
-//        LoginDatabase instance = new LoginDatabase();
-//        try {
-//            instance.conn =DriverManager.getConnection(url,dbusername,dbpassword);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(LoginDatabaseTest.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        Data expResult = null;
-//        Data result = instance.checkAccountExist(userID);
-//        assertEquals(expResult, result);
-//         
-//    }
-//
-//    /**
-//     * Test of createNewAccount method, of class LoginDatabase.
-//     */
-//    @Test
-//    public void testCreateNewAccount() {
-//        System.out.println("createNewAccount");
-//        String userID = "";
-//        String password = "";
-//        String userName = "";
-//        LoginDatabase instance = new LoginDatabase();
-//        Data expResult = null;
-//        Data result = instance.createNewAccount(userID, password, userName);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        
-//    }
-//
-//    /**
-//     * Test of resetPassword method, of class LoginDatabase.
-//     */
-//    @Test
-//    public void testResetPassword() {
-//        System.out.println("resetPassword");
-//        String userID = "";
-//        String newPassword = "";
-//        LoginDatabase instance = new LoginDatabase();
-//        Data expResult = null;
-//        Data result = instance.resetPassword(userID, newPassword);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        
-//    }
-//
-//    /**
-//     * Test of deleteAcc method, of class LoginDatabase.
-//     */
-//    @Test
-//    public void testDeleteAcc() {
-//        System.out.println("deleteAcc");
-//        String userID = "";
-//        LoginDatabase instance = new LoginDatabase();
-//        Data expResult = null;
-//        Data result = instance.deleteAcc(userID);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        
-//    }
-//
-//    /**
-//     * Test of quitSystem method, of class LoginDatabase.
-//     */
-//    
+    @Test
+    public void testCreateNewAcc() {
+        System.out.println("createNewAcc");
+        String userID = "";
+        String userName = "";
+        String password = "";
+        Model instance = new Model();
+        instance.createNewAcc(userID, userName, password);
+    }
+
+    /**
+     * Test of deleteAcc method, in class Model.
+     */
+    @Test
+    public void testDeleteAcc() {
+        System.out.println("deleteAcc");
+        String userID = "";
+        Model instance = new Model();
+        instance.deleteAcc(userID);
+    }
+
+    /**
+     * Test of resetPassword method, in class Model.
+     */
+    @Test
+    public void testResetPassword() {
+        System.out.println("resetPassword");
+        String userID = "";
+        String newPassword = "";
+        Model instance = new Model();
+        instance.resetPassword(userID, newPassword);
+    }
+
+    /**
+     * Test of initialiseQuestionData method, in class Model.
+     */
+    @Test
+    public void testInitialiseQuestionData() {
+        System.out.println("initialiseQuestionData");
+        Model instance = new Model();
+        instance.initialiseQuestionData();
+
+        boolean result = instance.questionData.questions.isEmpty();
+        assertFalse(result);
+    }
+
+    /**
+     * Test of insertQuestion method, in class Database.
+     */
+    @Test
+    public void testInsertQuestion() {
+        System.out.println("insertQuetion");
+        Database instance = new Database();
+        instance.setup();
+        Question q = new Question("Test", "Test", "Test");
+        instance.insertQuestion(q);      
+        instance.deleteQuestion(q.getqId());
+    }
 }
