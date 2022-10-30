@@ -73,7 +73,7 @@ public class QnaQuestionAdminView extends javax.swing.JFrame {
 
         addAnswer.setActionCommand("addAnswer");
         addAnswer.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        addAnswer.setLabel("Add Answer");
+        addAnswer.setLabel("Answer");
         addAnswer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addAnswerActionPerformed(evt);

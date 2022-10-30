@@ -200,8 +200,8 @@ public class LoginView extends JFrame implements Observer {
                 } else {//after login, if the user is recogized as Admin, go to the Admin Menu window
                     this.loginAsAdmin();
                 }
-            } else {//if the user ID and password did not match with the db, back to the login window
-                this.loginAccount();
+            } else {//otherwise it will go back to the first page
+                this.goBacktoMenu();
             }
         } else if (data.hasAnAccount) {//if the user does not have account, go to the createAnAccount window
             this.createAnAccount();
@@ -210,7 +210,7 @@ public class LoginView extends JFrame implements Observer {
             } else {
                 data.createNewAccDone = false;
             }
-        } else if (!data.quitFlag) {//if the user press the quit button, go to the quite window
+        } else if (!data.quitFlag) {//if the user press the quit button, go to the quit window
             this.quitSystem();
         } else if (data.resetPasswordDone) {//go to the the reset window
             this.resetPassword();
